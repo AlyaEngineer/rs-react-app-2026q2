@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import Search from './components/Search/Search';
+import Search from './features/book-search/ui/Search';
 
 interface State {
   searchTerm: string;
@@ -34,19 +34,21 @@ class App extends Component<object, State> {
 
   render() {
     return (
-      <div className="min-h-screen bg-background text-foreground p-8">
+      <div className="min-h-screen bg-background text-foreground p-12">
         <div className="max-w-6xl mx-auto space-y-8">
           <header className="text-center">
-            <h1 className="text-3xl font-bold text-foreground mb-2">
-              Find Your Dream Book
+            <h1 className="text-5xl font-bold text-foreground mb-2">
+              Discover Your Next Lovely Book
             </h1>
+
+            <h2 className="text-muted-foreground text-xl max-w-2xl mx-auto">
+              Dive into millions of books in the open library for every book
+              ever published
+            </h2>
           </header>
 
           <section className="bg-card p-6 rounded-xl border border-border shadow-sm">
-            <Search
-              initialValue={this.state.searchTerm}
-              onSearch={this.handleSearch}
-            />
+            <Search initialValue={searchTerm} onSearch={this.handleSearch} />
           </section>
 
           <section className="border-2 border-dashed border-muted rounded-xl h-64 flex items-center justify-center text-muted-foreground">

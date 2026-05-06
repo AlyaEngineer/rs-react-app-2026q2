@@ -17,6 +17,12 @@ class Search extends Component<Props, State> {
     };
   }
 
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.initialValue !== this.props.initialValue) {
+      this.setState({ inputValue: this.props.initialValue });
+    }
+  }
+
   handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     this.setState({ inputValue: e.target.value });
   };
@@ -32,9 +38,10 @@ class Search extends Component<Props, State> {
       <form onSubmit={this.handleSubmit} className="flex w-full gap-2">
         <input
           type="search"
+          name="search"
           value={this.state.inputValue}
           onChange={this.handleInputChange}
-          placeholder="Search for books..."
+          placeholder="Start typing a book title or author..."
           className="grow px-4 py-2 rounded-lg outline-none bg-input-background text-foreground placeholder:text-muted-foreground border border-border transition-[color,box-shadow] duration-200 focus-visible:border-primary focus-visible:ring-[3px] focus-visible:ring-primary/30 dark:bg-input/30"
         />
         <button

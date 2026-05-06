@@ -12,5 +12,5 @@ export const mapBook = (doc: OpenLibraryDoc): Book => ({
   olid: doc.edition_key?.[0],
   oclc: doc.oclc?.[0],
   lccn: doc.lccn?.[0],
-  editionCount: doc.edition_count,
+  editionCount: doc.edition_count ?? 0,
 });

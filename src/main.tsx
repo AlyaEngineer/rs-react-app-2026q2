@@ -2,6 +2,8 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './app/styles/index.css';
 import App from './App';
+import ErrorBoundary from './app/ErrorBoundary';
+import ErrorFallback from './app/ui/ErrorFallback';
 
 const rootElement = document.getElementById('root');
 
@@ -11,6 +13,8 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <App />
+    <ErrorBoundary fallback={<ErrorFallback />}>
+      <App />
+    </ErrorBoundary>
   </StrictMode>
 );

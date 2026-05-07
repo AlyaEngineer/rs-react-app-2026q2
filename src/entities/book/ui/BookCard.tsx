@@ -11,17 +11,6 @@ class BookCard extends Component<Props> {
     const { title, author, year } = this.props.book;
 
     const coverUrl = getCoverUrl(this.props.book);
-    console.log(
-      'COVER URL:',
-      coverUrl,
-      this.props.book.title,
-      this.props.book.isbn,
-      this.props.book.olid,
-      this.props.book.coverId,
-      this.props.book.lccn,
-      this.props.book.oclc,
-      this.props.book.id
-    );
 
     return (
       <div className="flex flex-col bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:cursor-pointer transition-all">

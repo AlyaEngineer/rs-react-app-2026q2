@@ -3,6 +3,7 @@ import Search from './features/book-search/ui/Search';
 import BookList from './widgets/book-list/BookList';
 import { type Book } from './entities/book/model/types';
 import { getBooks } from './features/book-search/api/getBooks';
+import ErrorTestButton from './app/ui/ErrorTestButton';
 
 interface State {
   searchTerm: string;
@@ -83,6 +84,8 @@ class App extends Component<object, State> {
           <section className="bg-card p-6 rounded-xl border border-border shadow-sm">
             <Search initialValue={searchTerm} onSearch={this.handleSearch} />
           </section>
+
+          <ErrorTestButton />
 
           <section className="rounded-xl flex-1 items-center justify-center text-muted-foreground">
             {isLoading && (

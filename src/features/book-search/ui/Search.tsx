@@ -51,7 +51,7 @@ class Search extends Component<Props, State> {
 
         <button
           type="submit"
-          className="px-6 py-2 bg-primary text-primary-foreground font-medium rounded-lg hover:opacity-90 transition-opacity active:scale-95 cursor-pointer"
+          className="px-6 py-2 bg-primary text-primary-foreground text-lg rounded-lg hover:opacity-90 transition-opacity active:scale-95 cursor-pointer"
         >
           Search
         </button>

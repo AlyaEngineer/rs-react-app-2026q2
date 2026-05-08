@@ -130,5 +130,6 @@
 }
 
 html {
+  @apply overflow-y-scroll;
   font-size: var(--font-size);
 }

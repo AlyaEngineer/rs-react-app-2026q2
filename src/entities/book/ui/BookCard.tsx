@@ -13,26 +13,33 @@ class BookCard extends Component<Props> {
     const coverUrl = getCoverUrl(this.props.book);
 
     return (
-      <div className="flex flex-col bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:cursor-pointer transition-all">
-        <div className="h-80 overflow-hidden bg-muted">
+      <div className="group flex flex-col h-full overflow-hidden border border-border hover:border-primary/50 transition-all duration-300 rounded-xl shadow-sm hover:shadow-xl hover:shadow-primary/10 cursor-pointer bg-card">
+        <div className="relative w-full h-64 flex items-center justify-center bg-muted px-4 overflow-hidden">
           <img
             src={coverUrl}
             alt={title}
-            className="w-full h-full object-contain"
+            className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-105 transition-transform duration-300"
           />
         </div>
 
-        <div className="p-4 flex flex-col grow justify-between">
-          <h3 className="font-bold text-lg leading-tight mb-1 line-clamp-2">
-            {title}
-          </h3>
-          <p className="text-sm text-primary font-medium mb-2">{author}</p>
+        <div className="p-4 flex flex-col grow justify-between border-t border-border/50">
+          <div className="space-y-1">
+            <h3 className="font-bold text-lg line-clamp-2 group-hover:text-primary transition-colors">
+              {title}
+            </h3>
+            <p className="text-sm font-semibold text-muted-foreground">
+              Author: {author}
+            </p>
+          </div>
 
-          <div className="text-sm text-muted-foreground space-y-1 mb-3 font-medium">
+          <div className="text-sm text-muted-foreground mt-4 font-medium">
             {year ? (
               <p>First published: {year}</p>
             ) : (
-              <p className="text-muted-foreground">First published: -</p>
+              <p className="text-muted-foreground">
+                First published:{' '}
+                <span className="text-muted-foreground/50">N/A</span>
+              </p>
             )}
           </div>
         </div>

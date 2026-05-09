@@ -1,18 +1,21 @@
+import { RefreshCw } from 'lucide-react';
+
 function ErrorFallback() {
   return (
-    <div className="flex bg-destructive/10 min-h-screen shadow-3xl/20 rounded-4xl max-w-2xl flex-col items-center justify-center gap-8 m-auto p-6 max-sm:mx-6 backdrop-invert backdrop-opacity-5 max-sm:w-sm sm:w-xl md:w-2xl lg:w-4xl xl:w-6xl">
-      <h1 className="mb-4 text-center text-3xl font-bold text-muted-foreground">
-        Something went wrong!
-      </h1>
-      <p className="mb-6 text-center text-2xl text-muted-foreground">
+    <div className="max-w-xl m-auto my-12 p-16 bg-destructive/10 text-destructive/70 border border-destructive/20 rounded-xl text-center shadow-sm">
+      <h1 className="text-3xl font-bold mb-2">Something went wrong!</h1>
+
+      <p className="font-medium text-lg text-muted-foreground mb-8 max-w-md mx-auto">
         Try refreshing the page or coming back later.
       </p>
+
       <button
-        className="flex w-full items-center justify-center gap-2.5 p-2 cursor-pointer rounded-2xl shadow-xl inset-shadow-sm bg-chart-3 text-xl text-gray-600 text-shadow-2xs transition delay-150 duration-300 ease-in-out hover:bg-chart-2 hover:shadow-xl/20"
+        className="inline-flex items-center justify-center px-6 py-3 gap-4 cursor-pointer rounded-xl font-semibold bg-destructive text-destructive-foreground transition-all duration-300 hover:bg-destructive/90 hover:shadow-lg hover:shadow-destructive/20 active:scale-98"
         onClick={() => {
           window.location.reload();
         }}
       >
+        <RefreshCw />
         Reload page
       </button>
     </div>

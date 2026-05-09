@@ -68,17 +68,17 @@ class App extends Component<object, State> {
     const { results, isLoading, error, searchTerm } = this.state;
 
     return (
-      <div className="min-h-screen bg-background text-foreground p-12">
-        <div className="max-w-6xl mx-auto space-y-8">
+      <div className="min-h-screen bg-linear-to-br from-primary/10 via-secondary/30 to-accent/20 text-foreground pt-12 flex flex-col">
+        <div className="max-w-7xl w-full mx-auto px-6 space-y-8 mb-12">
           <header className="text-center">
-            <h1 className="text-5xl font-bold text-foreground mb-2">
+            <h1 className="text-5xl font-bold text-foreground mb-8">
               Discover Your Next Lovely Book
             </h1>
 
-            <h2 className="text-muted-foreground text-xl max-w-2xl mx-auto">
-              Dive into millions of books in the open library for every book
-              ever published
-            </h2>
+            <p className="text-muted-foreground text-xl max-w-2xl mx-auto">
+              <span>Dive into millions of books in the open library</span>
+              <span className="block">for every book ever published</span>
+            </p>
           </header>
 
           <section className="bg-card p-6 rounded-xl border border-border shadow-sm">
@@ -86,17 +86,13 @@ class App extends Component<object, State> {
           </section>
 
           <ErrorTestButton />
+        </div>
 
-          <section className="rounded-xl flex-1 items-center justify-center text-muted-foreground">
+        <section className="w-full bg-background grow p-12">
+          <div className="max-w-7xl mx-auto text-muted-foreground">
             {isLoading && (
               <div className="flex justify-center p-12">
-                <svg
-                  className="mr-3 -ml-1 size-5 animate-spin text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                ></svg>
-                <div className="size-5 animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
               </div>
             )}
 
@@ -118,8 +114,8 @@ class App extends Component<object, State> {
                   </p>
                 </div>
               ))}
-          </section>
-        </div>
+          </div>
+        </section>
       </div>
     );
   }

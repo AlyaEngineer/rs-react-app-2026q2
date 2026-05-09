@@ -36,7 +36,10 @@ class Search extends Component<Props, State> {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} className="flex w-full gap-2">
+      <form
+        onSubmit={this.handleSubmit}
+        className="flex flex-col sm:flex-row w-full gap-2"
+      >
         <div className="flex grow items-center gap-2 px-3 py-2 rounded-lg bg-input-background text-foreground border border-border transition-[color,box-shadow] duration-200 focus-within:border-primary focus-within:ring-[3px] focus-within:ring-primary/30 dark:bg-input/30">
           <SearchIcon className="w-5 h-5 text-muted-foreground shrink-0" />
           <input

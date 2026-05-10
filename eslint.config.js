@@ -8,6 +8,7 @@ import { defineConfig, globalIgnores } from 'eslint/config';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import reactCompiler from 'eslint-plugin-react-compiler';
 import vitest from 'eslint-plugin-vitest';
+import tailwind from 'eslint-plugin-tailwindcss';
 
 export default defineConfig([
   globalIgnores(['dist', 'node_modules', 'coverage']),
@@ -43,6 +44,7 @@ export default defineConfig([
       ...tseslint.configs.stylisticTypeChecked,
       reactPlugin.configs.flat.recommended,
       reactPlugin.configs.flat['jsx-runtime'],
+      ...tailwind.configs['flat/recommended'],
     ],
     languageOptions: {
       globals: globals.browser,
@@ -59,9 +61,13 @@ export default defineConfig([
         { allowConstantExport: true },
       ],
       'react-compiler/react-compiler': 'error',
+      'tailwindcss/no-custom-classname': 'off',
     },
     settings: {
       react: { version: 'detect' },
+      tailwindcss: {
+        config: {},
+      },
     },
   },
 

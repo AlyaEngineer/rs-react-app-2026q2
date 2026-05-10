@@ -68,36 +68,36 @@ class App extends Component<object, State> {
     const { results, isLoading, error, searchTerm } = this.state;
 
     return (
-      <div className="min-h-screen bg-linear-to-br from-primary/10 via-secondary/30 to-accent/20 text-foreground pt-12 flex flex-col">
-        <div className="max-w-7xl w-full mx-auto px-6 space-y-8 mb-12">
+      <div className="from-primary/10 via-secondary/30 to-accent/20 text-foreground flex min-h-screen flex-col bg-linear-to-br pt-12">
+        <div className="mx-auto mb-12 w-full max-w-7xl space-y-8 px-6">
           <header className="text-center">
-            <h1 className="text-5xl font-bold text-foreground mb-8">
+            <h1 className="text-foreground mb-8 text-5xl font-bold">
               Discover Your Next Lovely Book
             </h1>
 
-            <p className="text-muted-foreground text-xl max-w-2xl mx-auto">
+            <p className="text-muted-foreground mx-auto max-w-2xl text-xl">
               <span>Dive into millions of books in the open library</span>
               <span className="block">for every book ever published</span>
             </p>
           </header>
 
-          <section className="bg-card p-6 rounded-xl border border-border shadow-sm">
+          <section className="bg-card border-border rounded-xl border p-6 shadow-sm">
             <Search initialValue={searchTerm} onSearch={this.handleSearch} />
           </section>
 
           <ErrorTestButton />
         </div>
 
-        <section className="w-full bg-background grow p-12">
-          <div className="max-w-7xl mx-auto text-muted-foreground">
+        <section className="bg-background w-full grow p-12">
+          <div className="text-muted-foreground mx-auto max-w-7xl">
             {isLoading && (
               <div className="flex justify-center p-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                <div className="border-primary h-12 w-12 animate-spin rounded-full border-t-2 border-b-2"></div>
               </div>
             )}
 
             {error && (
-              <div className="p-16 bg-destructive/10 text-destructive border border-destructive/20 rounded-xl text-center">
+              <div className="bg-destructive/10 text-destructive border-destructive/20 rounded-xl border p-16 text-center">
                 <p className="font-medium">Oooops! Error...</p>
                 <p>{error}</p>
               </div>
@@ -108,8 +108,8 @@ class App extends Component<object, State> {
               (results.length > 0 ? (
                 <BookList items={results} />
               ) : (
-                <div className="p-16 bg-accent/10 text-accent border border-accent rounded-xl text-center">
-                  <p className="text-center text-muted-foreground font-medium">
+                <div className="bg-accent/10 text-accent border-accent rounded-xl border p-16 text-center">
+                  <p className="text-muted-foreground text-center font-medium">
                     No books found. Try another search.
                   </p>
                 </div>

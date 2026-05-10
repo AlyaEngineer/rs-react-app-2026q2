@@ -7,12 +7,36 @@ import tseslint from 'typescript-eslint';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import reactCompiler from 'eslint-plugin-react-compiler';
+import vitest from 'eslint-plugin-vitest';
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'node_modules', 'coverage']),
 
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ['**/*.{ts,tsx,js,jsx}'],
+    languageOptions: {
+      ecmaVersion: 2026,
+      parser: tseslint.parser,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
+
+  {
+    files: ['eslint.config.js'],
+    languageOptions: {
+      parserOptions: {
+        projectService: false,
+        project: null,
+      },
+    },
+  },
+
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    ignores: ['**/*.{test,spec}.{ts,tsx}'],
     extends: [
       js.configs.recommended,
       ...tseslint.configs.strictTypeChecked,
@@ -21,12 +45,7 @@ export default defineConfig([
       reactPlugin.configs.flat['jsx-runtime'],
     ],
     languageOptions: {
-      ecmaVersion: 2026,
       globals: globals.browser,
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
     },
     plugins: {
       'react-hooks': reactHooks,
@@ -43,6 +62,20 @@ export default defineConfig([
     },
     settings: {
       react: { version: 'detect' },
+    },
+  },
+
+  {
+    files: ['**/*.{test,spec}.{js,jsx,ts,tsx}'],
+    extends: [vitest.configs.recommended],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+    rules: {
+      'vitest/max-nested-describe': ['error', { max: 3 }],
     },
   },
 

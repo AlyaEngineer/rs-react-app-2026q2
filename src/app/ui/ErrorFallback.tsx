@@ -2,15 +2,15 @@ import { RefreshCw } from 'lucide-react';
 
 function ErrorFallback() {
   return (
-    <div className="max-w-xl m-auto my-12 p-16 bg-destructive/10 text-destructive/70 border border-destructive/20 rounded-xl text-center shadow-sm">
-      <h1 className="text-3xl font-bold mb-2">Something went wrong!</h1>
+    <div className="bg-destructive/10 text-destructive/70 border-destructive/20 m-auto my-12 max-w-xl rounded-xl border p-16 text-center shadow-sm">
+      <h1 className="mb-2 text-3xl font-bold">Something went wrong!</h1>
 
-      <p className="font-medium text-lg text-muted-foreground mb-8 max-w-md mx-auto">
+      <p className="text-muted-foreground mx-auto mb-8 max-w-md text-lg font-medium">
         Try refreshing the page or coming back later.
       </p>
 
       <button
-        className="inline-flex items-center justify-center px-6 py-3 gap-4 cursor-pointer rounded-xl font-semibold bg-destructive text-destructive-foreground transition-all duration-300 hover:bg-destructive/90 hover:shadow-lg hover:shadow-destructive/20 active:scale-98"
+        className="bg-destructive text-destructive-foreground hover:bg-destructive/90 hover:shadow-destructive/20 inline-flex cursor-pointer items-center justify-center gap-4 rounded-xl px-6 py-3 font-semibold transition-all duration-300 hover:shadow-lg active:scale-98"
         onClick={() => {
           window.location.reload();
         }}

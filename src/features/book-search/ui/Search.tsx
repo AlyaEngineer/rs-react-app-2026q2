@@ -38,23 +38,23 @@ class Search extends Component<Props, State> {
     return (
       <form
         onSubmit={this.handleSubmit}
-        className="flex flex-col sm:flex-row w-full gap-2"
+        className="flex w-full flex-col gap-2 sm:flex-row"
       >
-        <div className="flex grow items-center gap-2 px-3 py-2 rounded-lg bg-input-background text-foreground border border-border transition-[color,box-shadow] duration-200 focus-within:border-primary focus-within:ring-[3px] focus-within:ring-primary/30 dark:bg-input/30">
-          <SearchIcon className="w-5 h-5 text-muted-foreground shrink-0" />
+        <div className="bg-input-background text-foreground border-border focus-within:border-primary focus-within:ring-primary/30 dark:bg-input/30 flex grow items-center gap-2 rounded-lg border px-3 py-2 transition-[color,box-shadow] duration-200 focus-within:ring-[3px]">
+          <SearchIcon className="text-muted-foreground h-5 w-5 shrink-0" />
           <input
             type="search"
             name="search"
             value={this.state.inputValue}
             onChange={this.handleInputChange}
             placeholder="Start typing a book title or author..."
-            className="w-full bg-transparent outline-none placeholder:text-muted-foreground placeholder:text-lg text-foreground text-lg"
+            className="placeholder:text-muted-foreground text-foreground w-full bg-transparent text-lg outline-none placeholder:text-lg"
           />
         </div>
 
         <button
           type="submit"
-          className="px-6 py-2 bg-primary text-primary-foreground text-lg rounded-lg hover:opacity-90 transition-opacity active:scale-95 cursor-pointer"
+          className="bg-primary text-primary-foreground cursor-pointer rounded-lg px-6 py-2 text-lg transition-opacity hover:opacity-90 active:scale-95"
         >
           Search
         </button>

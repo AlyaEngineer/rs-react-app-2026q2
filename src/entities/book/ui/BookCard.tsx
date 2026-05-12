@@ -13,26 +13,26 @@ class BookCard extends Component<Props> {
     const coverUrl = getCoverUrl(this.props.book);
 
     return (
-      <div className="group flex flex-col h-full overflow-hidden border border-border hover:border-primary/50 transition-all duration-300 rounded-xl shadow-sm hover:shadow-xl hover:shadow-primary/10 cursor-pointer bg-card">
-        <div className="relative w-full h-64 flex items-center justify-center bg-muted px-4 overflow-hidden">
+      <div className="group border-border hover:border-primary/50 hover:shadow-primary/10 bg-card flex h-full cursor-pointer flex-col overflow-hidden rounded-xl border shadow-sm transition-all duration-300 hover:shadow-xl">
+        <div className="bg-muted relative flex h-64 w-full items-center justify-center overflow-hidden px-4">
           <img
             src={coverUrl}
             alt={title}
-            className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+            className="h-auto max-h-full w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
           />
         </div>
 
-        <div className="p-4 flex flex-col grow justify-between border-t border-border/50">
+        <div className="border-border/50 flex grow flex-col justify-between border-t p-4">
           <div className="space-y-1">
-            <h3 className="font-bold text-lg line-clamp-2 group-hover:text-primary transition-colors">
+            <h3 className="group-hover:text-primary line-clamp-2 text-lg font-bold transition-colors">
               {title}
             </h3>
-            <p className="text-sm font-semibold text-muted-foreground">
+            <p className="text-muted-foreground text-sm font-semibold">
               Author: {author}
             </p>
           </div>
 
-          <div className="text-sm text-muted-foreground mt-4 font-medium">
+          <div className="text-muted-foreground mt-4 text-sm font-medium">
             {year ? (
               <p>First published: {year}</p>
             ) : (

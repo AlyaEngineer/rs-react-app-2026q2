@@ -2,11 +2,11 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from './App';
-import ErrorBoundary from './app/ErrorBoundary';
-import ErrorFallback from './app/ui/ErrorFallback';
-import { getBooks } from './features/book-search/api/getBooks';
-import { type Book } from './entities/book/model/types';
-import ErrorTestButton from './app/ui/ErrorTestButton';
+import ErrorBoundary from './ui/ErrorBoundary';
+import ErrorFallback from './ui/ErrorFallback';
+import { getBooks } from '../features/book-search/api/getBooks';
+import { type Book } from '../entities/book/model/types';
+import ErrorTestButton from './ui/ErrorTestButton';
 
 vi.mock('./features/book-search/api/getBooks', () => ({
   getBooks: vi.fn(),

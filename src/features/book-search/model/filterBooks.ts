@@ -1,4 +1,4 @@
-import { type Book } from '../../../entities/book/model/types';
+import { type Book } from '@/entities/book/model/types';
 
 export const filterBooks = (books: Book[], term: string): Book[] => {
   const words = term.toLowerCase().trim().split(/\s+/).filter(Boolean);

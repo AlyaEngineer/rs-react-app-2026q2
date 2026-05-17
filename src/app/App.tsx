@@ -1,9 +1,9 @@
 import { Component } from 'react';
-import Search from '../features/book-search/ui/Search';
-import BookList from '../widgets/book-list/BookList';
-import { type Book } from '../entities/book/model/types';
-import { getBooks } from '../features/book-search/api/getBooks';
-import ErrorTestButton from './ui/ErrorTestButton';
+import Search from '@/features/book-search/ui/Search';
+import BookList from '@/widgets/book-list/BookList';
+import { type Book } from '@/entities/book/model/types';
+import { getBooks } from '@/features/book-search/api/getBooks';
+import ErrorTestButton from '@/app/ui/ErrorTestButton';
 
 interface State {
   searchTerm: string;

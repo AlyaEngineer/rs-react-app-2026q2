@@ -1,6 +1,6 @@
 import { Component } from 'react';
-import { type Book } from '../../entities/book/model/types';
-import BookCard from '../../entities/book/ui/BookCard';
+import { type Book } from '@/entities/book/model/types';
+import BookCard from '@/entities/book/ui/BookCard';
 
 interface Props {
   items: Book[];

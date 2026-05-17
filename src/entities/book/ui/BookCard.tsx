@@ -1,6 +1,6 @@
 import { Component } from 'react';
-import { type Book } from '../model/types';
-import { getCoverUrl } from '../model/getCoverUrl';
+import { type Book } from '@/entities/book/model/types';
+import { getCoverUrl } from '@/entities/book/model/getCoverUrl';
 
 interface Props {
   book: Book;

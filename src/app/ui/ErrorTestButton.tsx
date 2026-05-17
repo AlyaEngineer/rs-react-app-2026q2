@@ -1,6 +1,6 @@
 import { Component } from 'react';
 
-import type { ErrorTestButtonState } from '../model/errorBoundaryTypes';
+import type { ErrorTestButtonState } from '@/app/model/errorBoundaryTypes';
 
 class ErrorTestButton extends Component<object, ErrorTestButtonState> {
   constructor(props: object) {

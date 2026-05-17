@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { getBooks } from '../getBooks';
-import { fetchBooks } from '../../../../shared/api/client';
+import { getBooks } from '@/features/book-search/api/getBooks';
+import { fetchBooks } from '@/shared/api/client';
 
 afterEach(() => {
   vi.clearAllMocks();

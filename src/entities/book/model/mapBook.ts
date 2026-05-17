@@ -1,5 +1,5 @@
-import type { OpenLibraryDoc } from '../../../shared/api/types';
-import { type Book } from './types';
+import type { OpenLibraryDoc } from '@/shared/api/types';
+import { type Book } from '@/entities/book/model/types';
 
 export const mapBook = (doc: OpenLibraryDoc): Book => ({
   id: doc.key,

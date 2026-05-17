@@ -2,8 +2,8 @@ import type {
   OpenLibraryDoc,
   OpenLibraryError,
   OpenLibraryResponse,
-} from './types';
-import { OPEN_LIBRARY_BASE_URL } from '../config/api';
+} from '@/shared/api/types';
+import { OPEN_LIBRARY_BASE_URL } from '@/shared/config/api';
 
 export const fetchBooks = async (term: string): Promise<OpenLibraryDoc[]> => {
   const url = `${OPEN_LIBRARY_BASE_URL}?q=${encodeURIComponent(term)}&limit=20`;

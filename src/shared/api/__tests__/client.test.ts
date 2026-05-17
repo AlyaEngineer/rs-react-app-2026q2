@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { fetchBooks } from '../client';
+import { fetchBooks } from '@/shared/api/client';
 
 type MockJsonResponse = {
   ok: boolean;

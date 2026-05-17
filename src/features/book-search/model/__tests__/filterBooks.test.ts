@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { filterBooks } from '../filterBooks';
-import { type Book } from '../../../../entities/book/model/types';
+import { filterBooks } from '@/features/book-search/model/filterBooks';
+import { type Book } from '@/entities/book/model/types';
 
 const mockBooks: Book[] = [
   { id: '1', title: 'React Guide', author: 'Dan Abramov', editionCount: 1 },

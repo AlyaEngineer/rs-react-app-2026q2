@@ -1,9 +1,6 @@
-import { type CoverKey, COVER_SOURCES } from '../../../shared/config/covers';
-import {
-  COVER_BASE_URL,
-  PLACEHOLDER_COVER,
-} from '../../../shared/config/images';
-import type { Book } from './types';
+import { type CoverKey, COVER_SOURCES } from '@/shared/config/covers';
+import { COVER_BASE_URL, PLACEHOLDER_COVER } from '@/shared/config/images';
+import type { Book } from '@/entities/book/model/types';
 
 export type CoverSize = 'S' | 'M' | 'L';
 

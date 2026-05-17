@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import App from '@/app/App';
+import HomePage from '@/pages/home/ui/HomePage';
 import ErrorBoundary from '@/app/ui/ErrorBoundary';
 import ErrorFallback from '@/app/ui/ErrorFallback';
 import { getBooks } from '@/features/book-search/api/getBooks';
@@ -12,7 +12,7 @@ vi.mock('@/features/book-search/api/getBooks', () => ({
   getBooks: vi.fn(),
 }));
 
-describe('App component integration tests', () => {
+describe('HomePage integration tests', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     localStorage.clear();
@@ -39,7 +39,7 @@ describe('App component integration tests', () => {
     ];
     vi.mocked(getBooks).mockResolvedValue(mockBooks);
 
-    render(<App />);
+    render(<HomePage />);
 
     const input = screen.getByPlaceholderText(/Start typing/i);
     await user.type(input, 'Clean Code{Enter}');
@@ -72,7 +72,7 @@ describe('App component integration tests', () => {
 
     vi.mocked(getBooks).mockResolvedValue(mockBooks);
 
-    render(<App />);
+    render(<HomePage />);
 
     const input = screen.getByPlaceholderText(/start typing/i);
 
@@ -89,7 +89,7 @@ describe('App component integration tests', () => {
     localStorage.setItem('search_query', 'Refactoring');
     vi.mocked(getBooks).mockResolvedValue([]);
 
-    render(<App />);
+    render(<HomePage />);
 
     const input = screen.getByPlaceholderText(
       /Start typing/i
@@ -107,7 +107,7 @@ describe('App component integration tests', () => {
       new Error('Error 500: Server is temporarily unavailable')
     );
 
-    render(<App />);
+    render(<HomePage />);
 
     const input = screen.getByPlaceholderText(/Start typing/i);
     await user.type(input, 'InvalidQuery{Enter}');

@@ -1,21 +1,24 @@
-import { type CoverKey, COVER_SOURCES } from '@/shared/config/covers';
-import { COVER_BASE_URL, PLACEHOLDER_COVER } from '@/shared/config/images';
+import {
+  type CoverKey,
+  type ImageSize,
+  COVER_SOURCES,
+  DEFAULT_IMAGE_SIZE,
+} from '@/shared/config/covers';
+import { COVER_BASE_URL, PLACEHOLDER_COVER } from '@/shared/config/covers';
 import type { Book } from '@/entities/book/model/types';
 
-export type CoverSize = 'S' | 'M' | 'L';
-
-export const DEFAULT_COVER_SIZE: CoverSize = 'M';
+type CoverData = Pick<Book, 'coverId' | 'isbn' | 'olid' | 'oclc' | 'lccn'>;
 
 export const getCoverUrl = (
-  book: Book,
-  size: CoverSize = DEFAULT_COVER_SIZE
+  book: Partial<CoverData>,
+  size: ImageSize = DEFAULT_IMAGE_SIZE
 ): string => {
   const values: Record<CoverKey, string | number | undefined> = {
-    id: book.coverId,
-    isbn: book.isbn,
-    olid: book.olid,
-    oclc: book.oclc,
-    lccn: book.lccn,
+    id: book.coverId && book.coverId > 0 ? book.coverId : undefined,
+    isbn: 'isbn' in book ? book.isbn : undefined,
+    olid: 'olid' in book ? book.olid : undefined,
+    oclc: 'oclc' in book ? book.oclc : undefined,
+    lccn: 'lccn' in book ? book.lccn : undefined,
   };
 
   for (const key of COVER_SOURCES) {

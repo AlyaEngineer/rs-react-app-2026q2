@@ -5,6 +5,7 @@ import ErrorTestButton from '@/app/ui/ErrorTestButton';
 import { useLocalStorage } from '@/shared/lib/hooks/useLocalStorage';
 import { type Book } from '@/entities/book/model/types';
 import { getBooks } from '@/features/book-search/api/getBooks';
+import { Outlet, useChildMatches, useNavigate } from '@tanstack/react-router';
 
 export default function HomePage() {
   const [searchTerm, setSearchTerm] = useLocalStorage('search_query', '');
@@ -42,6 +43,13 @@ export default function HomePage() {
     setSearchTerm(term.trim());
   };
 
+  const childMatches = useChildMatches();
+  const navigate = useNavigate();
+
+  const isDetailOpen = childMatches.some(
+    (m) => m.routeId === '/_layout/$detailsId'
+  );
+
   return (
     <div className="from-primary/10 via-secondary/30 to-accent/20 text-foreground flex min-h-screen flex-col bg-linear-to-br pt-12">
       <div className="mx-auto mb-12 w-full max-w-7xl space-y-8 px-6">
@@ -62,8 +70,11 @@ export default function HomePage() {
         <ErrorTestButton />
       </div>
 
-      <section className="bg-background w-full grow p-12">
-        <div className="text-muted-foreground mx-auto max-w-7xl">
+      <section className="bg-background w-full grow gap-6 p-12 md:grid md:grid-cols-3">
+        <div
+          className={`text-muted-foreground mx-auto max-w-7xl ${isDetailOpen ? 'col-span-2' : 'col-span-3'}`}
+          onClick={() => void navigate({ to: '/' })}
+        >
           {isLoading && (
             <div className="flex justify-center p-12">
               <div className="border-primary h-12 w-12 animate-spin rounded-full border-t-2 border-b-2" />
@@ -89,6 +100,12 @@ export default function HomePage() {
               </div>
             ))}
         </div>
+
+        {isDetailOpen && (
+          <section className="bg-card border-border rounded-xl border p-6 shadow-sm">
+            <Outlet />
+          </section>
+        )}
       </section>
     </div>
   );

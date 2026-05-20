@@ -3,10 +3,10 @@ import type {
   OpenLibraryError,
   OpenLibraryResponse,
 } from '@/shared/api/types';
-import { OPEN_LIBRARY_BASE_URL } from '@/shared/config/api';
+import { OPEN_LIBRARY_SEARCH_URL } from '@/shared/config/openLibraryApi';
 
 export const fetchBooks = async (term: string): Promise<OpenLibraryDoc[]> => {
-  const url = `${OPEN_LIBRARY_BASE_URL}?q=${encodeURIComponent(term)}&limit=20`;
+  const url = `${OPEN_LIBRARY_SEARCH_URL}?q=${encodeURIComponent(term)}&limit=20`;
 
   const response = await fetch(url);
   if (!response.ok) {

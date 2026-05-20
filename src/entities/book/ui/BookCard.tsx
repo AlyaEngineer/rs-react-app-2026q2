@@ -23,6 +23,7 @@ function BookCard({ book }: Props) {
       onClick={(e) => {
         e.stopPropagation();
       }}
+      resetScroll={false}
     >
       <div className="group border-border hover:border-primary/50 hover:shadow-primary/10 bg-card flex h-full cursor-pointer flex-col overflow-hidden rounded-xl border shadow-sm transition-all duration-300 hover:shadow-xl">
         <div className="bg-muted relative flex h-64 w-full items-center justify-center overflow-hidden px-4">

@@ -7,7 +7,12 @@ export function BookDetailsError() {
   return (
     <aside className="relative p-6">
       <button
-        onClick={() => void navigate({ to: '/' })}
+        onClick={() =>
+          void navigate({
+            to: '/',
+            resetScroll: false,
+          })
+        }
         aria-label="Close details"
         className="text-muted-foreground hover:text-foreground absolute top-4 right-4 text-xl transition-colors hover:cursor-pointer"
       >

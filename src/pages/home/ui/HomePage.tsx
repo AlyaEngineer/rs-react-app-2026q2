@@ -50,6 +50,25 @@ export default function HomePage() {
     (m) => m.routeId === '/_layout/$detailsId'
   );
 
+  useEffect(() => {
+    if (!isDetailOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        void navigate({
+          to: '/',
+          resetScroll: false,
+        });
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isDetailOpen, navigate]);
+
   return (
     <div className="from-primary/10 via-secondary/30 to-accent/20 text-foreground flex min-h-screen flex-col bg-linear-to-br pt-12">
       <div className="mx-auto mb-12 w-full max-w-7xl space-y-8 px-6">
@@ -102,6 +121,12 @@ export default function HomePage() {
           <>
             <div
               className="bg-popover-foreground/50 fixed inset-0 z-40 cursor-pointer backdrop-blur-sm"
+              onClick={() =>
+                void navigate({
+                  to: '/',
+                  resetScroll: false,
+                })
+              }
             />
 
             <section className="bg-card border-border fixed top-0 right-0 z-50 h-full w-full max-w-lg overflow-y-auto border-l p-6 shadow-xl">

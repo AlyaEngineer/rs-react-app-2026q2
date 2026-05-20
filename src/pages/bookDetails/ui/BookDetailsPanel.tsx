@@ -14,9 +14,14 @@ export function BookDetailsPanel({ book, detailsId }: BookDetailsProps) {
   return (
     <aside key={detailsId} className="relative p-6">
       <button
-        onClick={() => void navigate({ to: '/' })}
+        onClick={() =>
+          void navigate({
+            to: '/',
+            resetScroll: false,
+          })
+        }
         aria-label="Close details"
-        className="text-muted-foreground hover:text-foreground absolute top-4 right-4 text-xl transition-colors hover:cursor-pointer"
+        className="text-muted-foreground hover:text-foreground absolute right-0 flex h-10 w-10 items-center justify-center transition-colors hover:cursor-pointer"
       >
         <X />
       </button>

@@ -7,10 +7,25 @@ import ErrorFallback from '@/app/ui/ErrorFallback';
 import { getBooks } from '@/features/book-search/api/getBooks';
 import { type Book } from '@/entities/book/model/types';
 import ErrorTestButton from '@/app/ui/ErrorTestButton';
+import {
+  createRootRoute,
+  createRouter,
+  RouterProvider,
+} from '@tanstack/react-router';
 
 vi.mock('@/features/book-search/api/getBooks', () => ({
   getBooks: vi.fn(),
 }));
+
+export async function renderWithRouter(ui: React.ReactElement) {
+  const router = createRouter({
+    routeTree: createRootRoute({ component: () => ui }),
+  });
+
+  await router.load();
+
+  return render(<RouterProvider router={router} />);
+}
 
 describe('HomePage integration tests', () => {
   beforeEach(() => {
@@ -39,7 +54,7 @@ describe('HomePage integration tests', () => {
     ];
     vi.mocked(getBooks).mockResolvedValue(mockBooks);
 
-    render(<HomePage />);
+    await renderWithRouter(<HomePage />);
 
     const input = screen.getByPlaceholderText(/Start typing/i);
     await user.type(input, 'Clean Code{Enter}');
@@ -72,7 +87,7 @@ describe('HomePage integration tests', () => {
 
     vi.mocked(getBooks).mockResolvedValue(mockBooks);
 
-    render(<HomePage />);
+    await renderWithRouter(<HomePage />);
 
     const input = screen.getByPlaceholderText(/start typing/i);
 
@@ -89,7 +104,7 @@ describe('HomePage integration tests', () => {
     localStorage.setItem('search_query', 'Refactoring');
     vi.mocked(getBooks).mockResolvedValue([]);
 
-    render(<HomePage />);
+    await renderWithRouter(<HomePage />);
 
     const input = screen.getByPlaceholderText(
       /Start typing/i
@@ -107,7 +122,7 @@ describe('HomePage integration tests', () => {
       new Error('Error 500: Server is temporarily unavailable')
     );
 
-    render(<HomePage />);
+    await renderWithRouter(<HomePage />);
 
     const input = screen.getByPlaceholderText(/Start typing/i);
     await user.type(input, 'InvalidQuery{Enter}');
@@ -130,7 +145,7 @@ describe('HomePage integration tests', () => {
       value: { reload: vi.fn() },
     });
 
-    render(
+    await renderWithRouter(
       <ErrorBoundary fallback={<ErrorFallback />}>
         <ErrorTestButton />
       </ErrorBoundary>

@@ -70,11 +70,8 @@ export default function HomePage() {
         <ErrorTestButton />
       </div>
 
-      <section className="bg-background w-full grow gap-6 p-12 md:grid md:grid-cols-3">
-        <div
-          className={`text-muted-foreground mx-auto max-w-7xl ${isDetailOpen ? 'col-span-2' : 'col-span-3'}`}
-          onClick={() => void navigate({ to: '/' })}
-        >
+      <section className="bg-background w-full grow p-12">
+        <div className="text-muted-foreground mx-auto max-w-7xl">
           {isLoading && (
             <div className="flex justify-center p-12">
               <div className="border-primary h-12 w-12 animate-spin rounded-full border-t-2 border-b-2" />
@@ -102,9 +99,15 @@ export default function HomePage() {
         </div>
 
         {isDetailOpen && (
-          <section className="bg-card border-border rounded-xl border p-6 shadow-sm">
-            <Outlet />
-          </section>
+          <>
+            <div
+              className="bg-popover-foreground/50 fixed inset-0 z-40 cursor-pointer backdrop-blur-sm"
+            />
+
+            <section className="bg-card border-border fixed top-0 right-0 z-50 h-full w-full max-w-lg overflow-y-auto border-l p-6 shadow-xl">
+              <Outlet />
+            </section>
+          </>
         )}
       </section>
     </div>

@@ -35,9 +35,9 @@ describe('fetchBooks API client', () => {
 
     mockFetch(okResponse({ docs: mockDocs }));
 
-    const result = await fetchBooks('test');
+    const result = await fetchBooks('test', 1);
 
-    expect(result).toEqual(mockDocs);
+    expect(result.docs).toEqual(mockDocs);
   });
 
   it('throws API validation error with server message', async () => {
@@ -51,7 +51,7 @@ describe('fetchBooks API client', () => {
       })
     );
 
-    await expect(fetchBooks('hi')).rejects.toThrow(
+    await expect(fetchBooks('hi', 1)).rejects.toThrow(
       'Error 422: Value error, Query too short, must be at least 3 characters'
     );
   });
@@ -66,7 +66,7 @@ describe('fetchBooks API client', () => {
       })
     );
 
-    await expect(fetchBooks('test')).rejects.toThrow(
+    await expect(fetchBooks('test', 1)).rejects.toThrow(
       'Error 500: Invalid data format received from the server (HTML response)'
     );
   });
@@ -74,7 +74,7 @@ describe('fetchBooks API client', () => {
   it('returns fallback message for 500 without detail', async () => {
     mockFetch(errorResponse(500, {}));
 
-    await expect(fetchBooks('test')).rejects.toThrow(
+    await expect(fetchBooks('test', 1)).rejects.toThrow(
       'Error 500: Server is temporarily unavailable'
     );
   });
@@ -82,7 +82,7 @@ describe('fetchBooks API client', () => {
   it('returns fallback message for 400 without detail', async () => {
     mockFetch(errorResponse(400, {}));
 
-    await expect(fetchBooks('test')).rejects.toThrow(
+    await expect(fetchBooks('test', 1)).rejects.toThrow(
       'Error 400: Request cannot be completed. Please check your input.'
     );
   });

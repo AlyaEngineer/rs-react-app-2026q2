@@ -52,7 +52,7 @@ describe('HomePage integration tests', () => {
         editionCount: 2,
       },
     ];
-    vi.mocked(getBooks).mockResolvedValue(mockBooks);
+    vi.mocked(getBooks).mockResolvedValue({ books: mockBooks, totalBooks: 2 });
 
     await renderWithRouter(<HomePage />);
 
@@ -60,7 +60,7 @@ describe('HomePage integration tests', () => {
     await user.type(input, 'Clean Code{Enter}');
 
     expect(localStorage.getItem('search_query')).toBe('Clean Code');
-    expect(getBooks).toHaveBeenCalledWith('Clean Code');
+    expect(getBooks).toHaveBeenCalledWith('Clean Code', undefined);
 
     await waitFor(() => {
       expect(screen.getByText(/Clean Code/i)).toBeInTheDocument();
@@ -85,7 +85,7 @@ describe('HomePage integration tests', () => {
       },
     ];
 
-    vi.mocked(getBooks).mockResolvedValue(mockBooks);
+    vi.mocked(getBooks).mockResolvedValue({ books: mockBooks, totalBooks: 2 });
 
     await renderWithRouter(<HomePage />);
 
@@ -102,7 +102,7 @@ describe('HomePage integration tests', () => {
 
   it('should automatically read and apply search query from localStorage on mount', async () => {
     localStorage.setItem('search_query', 'Refactoring');
-    vi.mocked(getBooks).mockResolvedValue([]);
+    vi.mocked(getBooks).mockResolvedValue({ books: [], totalBooks: 0 });
 
     await renderWithRouter(<HomePage />);
 
@@ -112,7 +112,7 @@ describe('HomePage integration tests', () => {
     expect(input.value).toBe('Refactoring');
 
     await waitFor(() => {
-      expect(getBooks).toHaveBeenCalledWith('Refactoring');
+      expect(getBooks).toHaveBeenCalledWith('Refactoring', undefined);
     });
   });
 

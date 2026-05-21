@@ -27,9 +27,10 @@ export default function HomePage() {
       setResults([]);
 
       try {
-        const books = await getBooks(searchTerm);
+        const { books, totalBooks } = await getBooks(searchTerm);
         hasResultsRef.current = books.length > 0;
         setResults(books);
+        console.log(totalBooks);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Something went wrong');
       } finally {

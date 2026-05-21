@@ -14,6 +14,7 @@ export interface OpenLibraryDoc {
 }
 
 export interface OpenLibraryResponse {
+  numFound: number;
   docs: OpenLibraryDoc[];
 }
 

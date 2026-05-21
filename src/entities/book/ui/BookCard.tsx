@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { type Book } from '@/entities/book/model/types';
 import { getCoverUrl } from '@/entities/book/model/getCoverUrl';
+import { Route as BookDetailsRoute } from '@/routes/_layout.book.$detailsId';
 
 interface Props {
   book: Book;
@@ -14,7 +15,7 @@ function BookCard({ book }: Props) {
 
   return (
     <Link
-      to="/$detailsId"
+      to={BookDetailsRoute.to}
       params={{ detailsId }}
       search={{
         authorKeys: book.authorKeys?.join(','),

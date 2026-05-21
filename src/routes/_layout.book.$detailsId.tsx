@@ -4,7 +4,7 @@ import { Loader2 } from 'lucide-react';
 import { BookDetailsError } from '@/pages/bookDetails/ui/BookDetailsError';
 import { BookDetailsPanel } from '@/pages/bookDetails/ui/BookDetailsPanel';
 
-export const Route = createFileRoute('/_layout/$detailsId')({
+export const Route = createFileRoute('/_layout/book/$detailsId')({
   validateSearch: (search: Record<string, unknown>) => ({
     authorKeys:
       typeof search.authorKeys === 'string' ? search.authorKeys : undefined,

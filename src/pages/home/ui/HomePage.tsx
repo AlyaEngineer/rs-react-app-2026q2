@@ -6,6 +6,7 @@ import { useLocalStorage } from '@/shared/lib/hooks/useLocalStorage';
 import { type Book } from '@/entities/book/model/types';
 import { getBooks } from '@/features/book-search/api/getBooks';
 import { Outlet, useChildMatches, useNavigate } from '@tanstack/react-router';
+import { Route as BookDetailsRoute } from '@/routes/_layout.book.$detailsId';
 
 export default function HomePage() {
   const [searchTerm, setSearchTerm] = useLocalStorage('search_query', '');
@@ -47,7 +48,7 @@ export default function HomePage() {
   const navigate = useNavigate();
 
   const isDetailOpen = childMatches.some(
-    (m) => m.routeId === '/_layout/$detailsId'
+    (m) => m.routeId === BookDetailsRoute.id
   );
 
   useEffect(() => {

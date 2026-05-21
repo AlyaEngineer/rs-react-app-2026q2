@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { type Book } from '@/entities/book/model/types';
 import { getCoverUrl } from '@/entities/book/model/getCoverUrl';
-import { Route as BookDetailsRoute } from '@/routes/_layout.book.$detailsId';
+import { Route as HomeRoute } from '@/routes/_layout';
 
 interface Props {
   book: Book;
@@ -9,6 +9,7 @@ interface Props {
 
 function BookCard({ book }: Props) {
   const { title, author, year } = book;
+  const { page } = HomeRoute.useSearch();
 
   const coverUrl = getCoverUrl(book);
   const detailsId = book.id.replace('/works/', '');
@@ -18,6 +19,7 @@ function BookCard({ book }: Props) {
       to={BookDetailsRoute.to}
       params={{ detailsId }}
       search={{
+        page,
         authorKeys: book.authorKeys?.join(','),
         coverId: book.coverId,
       }}

@@ -18,6 +18,7 @@ export function NotFoundPage() {
       <Link
         to="/"
         className="bg-primary text-primary-foreground cursor-pointer rounded-lg px-6 py-2 text-lg transition-opacity duration-200 hover:opacity-90 active:scale-95"
+        search={{ page: 1 }}
       >
         Return to Home Page
       </Link>

@@ -2,6 +2,7 @@ import { useNavigate } from '@tanstack/react-router';
 import { BookDetails } from '@/entities/book/ui/BookDetails';
 import { type BookDetails as BookDetailsType } from '@/entities/book/model/types';
 import { X } from 'lucide-react';
+import { Route as HomeRoute } from '@/routes/_layout';
 
 interface BookDetailsProps {
   book: BookDetailsType;
@@ -10,6 +11,7 @@ interface BookDetailsProps {
 
 export function BookDetailsPanel({ book, detailsId }: BookDetailsProps) {
   const navigate = useNavigate();
+  const { page } = HomeRoute.useSearch();
 
   return (
     <aside key={detailsId} className="relative p-6">
@@ -18,6 +20,7 @@ export function BookDetailsPanel({ book, detailsId }: BookDetailsProps) {
           void navigate({
             to: '/',
             resetScroll: false,
+            search: { page },
           })
         }
         aria-label="Close details"

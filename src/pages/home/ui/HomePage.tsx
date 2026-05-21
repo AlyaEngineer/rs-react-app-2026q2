@@ -6,7 +6,7 @@ import { useLocalStorage } from '@/shared/lib/hooks/useLocalStorage';
 import { type Book } from '@/entities/book/model/types';
 import { getBooks } from '@/features/book-search/api/getBooks';
 import { Outlet, useChildMatches, useNavigate } from '@tanstack/react-router';
-import { Route as BookDetailsRoute } from '@/routes/_layout.book.$detailsId';
+import { Route as HomeRoute } from '@/routes/_layout';
 
 export default function HomePage() {
   const [searchTerm, setSearchTerm] = useLocalStorage('search_query', '');
@@ -15,6 +15,10 @@ export default function HomePage() {
   const [error, setError] = useState<string | null>(null);
   const lastTermRef = useRef<string | null>(null);
   const hasResultsRef = useRef(false);
+  const navigate = useNavigate();
+  const { page } = HomeRoute.useSearch();
+
+  console.log('current page:', page);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -27,7 +31,7 @@ export default function HomePage() {
       setResults([]);
 
       try {
-        const { books, totalBooks } = await getBooks(searchTerm);
+        const { books, totalBooks } = await getBooks(searchTerm, page);
         hasResultsRef.current = books.length > 0;
         setResults(books);
         console.log(totalBooks);
@@ -39,7 +43,7 @@ export default function HomePage() {
     };
 
     void fetchBooks();
-  }, [searchTerm]);
+  }, [searchTerm, page]);
 
   const handleSearch = (term: string) => {
     setSearchTerm(term.trim());
@@ -59,6 +63,7 @@ export default function HomePage() {
       if (e.key === 'Escape') {
         void navigate({
           to: '/',
+          search: { page },
           resetScroll: false,
         });
       }
@@ -69,7 +74,7 @@ export default function HomePage() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isDetailOpen, navigate]);
+  }, [isDetailOpen, navigate, page]);
 
   return (
     <div className="from-primary/10 via-secondary/30 to-accent/20 text-foreground flex min-h-screen flex-col bg-linear-to-br pt-12">
@@ -127,6 +132,7 @@ export default function HomePage() {
                 void navigate({
                   to: '/',
                   resetScroll: false,
+                  search: { page },
                 })
               }
             />

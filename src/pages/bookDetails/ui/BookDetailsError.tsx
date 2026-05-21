@@ -1,8 +1,10 @@
 import { useNavigate } from '@tanstack/react-router';
 import { X, AlertCircle } from 'lucide-react';
+import { Route as HomeRoute } from '@/routes/_layout';
 
 export function BookDetailsError() {
   const navigate = useNavigate();
+  const { page } = HomeRoute.useSearch();
 
   return (
     <aside className="relative p-6">
@@ -11,6 +13,7 @@ export function BookDetailsError() {
           void navigate({
             to: '/',
             resetScroll: false,
+            search: { page },
           })
         }
         aria-label="Close details"

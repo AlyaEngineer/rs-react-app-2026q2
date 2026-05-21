@@ -6,7 +6,7 @@ import { useLocalStorage } from '@/shared/lib/hooks/useLocalStorage';
 import { type Book } from '@/entities/book/model/types';
 import { getBooks } from '@/features/book-search/api/getBooks';
 import { Outlet, useChildMatches, useNavigate } from '@tanstack/react-router';
-import { Route as BookDetailsRoute } from '@/routes/_layout.$detailsId';
+import { Route as BookDetailsRoute } from '@/routes/_layout.book.$detailsId';
 import { Route as HomeRoute } from '@/routes/_layout';
 
 export default function HomePage() {

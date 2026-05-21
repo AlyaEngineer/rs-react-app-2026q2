@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { type Book } from '@/entities/book/model/types';
 import { getCoverUrl } from '@/entities/book/model/getCoverUrl';
-import { Route as BookDetailsRoute } from '@/routes/_layout.$detailsId';
+import { Route as BookDetailsRoute } from '@/routes/_layout.book.$detailsId';
 import { Route as HomeRoute } from '@/routes/_layout';
 
 interface Props {

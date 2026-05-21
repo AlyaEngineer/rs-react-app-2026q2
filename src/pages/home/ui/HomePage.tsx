@@ -8,6 +8,7 @@ import { getBooks } from '@/features/book-search/api/getBooks';
 import { Outlet, useChildMatches, useNavigate } from '@tanstack/react-router';
 import { Route as BookDetailsRoute } from '@/routes/_layout.book.$detailsId';
 import { Route as HomeRoute } from '@/routes/_layout';
+import { Pagination } from '@/features/pagination/ui/Pagination';
 
 export default function HomePage() {
   const [searchTerm, setSearchTerm] = useLocalStorage('search_query', '');
@@ -18,8 +19,7 @@ export default function HomePage() {
   const hasResultsRef = useRef(false);
   const navigate = useNavigate();
   const { page } = HomeRoute.useSearch();
-
-  console.log('current page:', page);
+  const [totalBooks, setTotalBooks] = useState(0);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -35,7 +35,7 @@ export default function HomePage() {
         const { books, totalBooks } = await getBooks(searchTerm, page);
         hasResultsRef.current = books.length > 0;
         setResults(books);
-        console.log(totalBooks);
+        setTotalBooks(totalBooks);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Something went wrong');
       } finally {
@@ -114,7 +114,11 @@ export default function HomePage() {
           {!isLoading &&
             !error &&
             (results.length > 0 ? (
-              <BookList items={results} />
+              <>
+                <Pagination totalBooks={totalBooks} />
+                <BookList items={results} />
+                <Pagination totalBooks={totalBooks} />
+              </>
             ) : (
               <div className="bg-accent/10 text-accent border-accent rounded-xl border p-16 text-center">
                 <p className="text-muted-foreground text-center font-medium">

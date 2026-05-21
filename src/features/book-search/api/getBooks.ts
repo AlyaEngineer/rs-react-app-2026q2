@@ -1,6 +1,5 @@
 import { fetchBooks } from '@/shared/api/client';
 import { mapBook } from '@/entities/book/model/mapBook';
-import { filterBooks } from '@/features/book-search/model/filterBooks';
 import type { GetBooksResult } from '@/features/book-search/model/types';
 
 export const getBooks = async (
@@ -9,7 +8,7 @@ export const getBooks = async (
 ): Promise<GetBooksResult> => {
   const { docs, numFound } = await fetchBooks(term || 'all', page);
 
-  const books = filterBooks(docs.map(mapBook), term);
+  const books = docs.map(mapBook);
 
   const totalBooks = numFound;
 

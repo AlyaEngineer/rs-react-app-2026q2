@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { type Book } from '@/entities/book/model/types';
 import { getCoverUrl } from '@/entities/book/model/getCoverUrl';
+import { Route as BookDetailsRoute } from '@/routes/_layout.$detailsId';
 import { Route as HomeRoute } from '@/routes/_layout';
 
 interface Props {
@@ -21,7 +22,6 @@ function BookCard({ book }: Props) {
       search={{
         page,
         authorKeys: book.authorKeys?.join(','),
-        coverId: book.coverId,
       }}
       onClick={(e) => {
         e.stopPropagation();

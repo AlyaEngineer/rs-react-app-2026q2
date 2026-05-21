@@ -4,18 +4,16 @@ import { Loader2 } from 'lucide-react';
 import { BookDetailsError } from '@/pages/bookDetails/ui/BookDetailsError';
 import { BookDetailsPanel } from '@/pages/bookDetails/ui/BookDetailsPanel';
 
-export const Route = createFileRoute('/_layout/book/$detailsId')({
+export const Route = createFileRoute('/_layout/$detailsId')({
   validateSearch: (search: Record<string, unknown>) => ({
     authorKeys:
       typeof search.authorKeys === 'string' ? search.authorKeys : undefined,
-    coverId: typeof search.coverId === 'number' ? search.coverId : undefined,
   }),
   loaderDeps: ({ search }) => ({
     authorKeys: search.authorKeys,
-    coverId: search.coverId,
   }),
   loader: ({ params, deps }) =>
-    getBookDetails(params.detailsId, deps.authorKeys?.split(','), deps.coverId),
+    getBookDetails(params.detailsId, deps.authorKeys?.split(',')),
   pendingComponent: () => (
     <div className="flex flex-col items-center gap-4 pt-12">
       <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />

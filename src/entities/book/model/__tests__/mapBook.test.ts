@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { mapBook } from '../mapBook';
-import type { OpenLibraryDoc } from '../../../../shared/api/types';
+import { mapBook } from '@/entities/book/model/mapBook';
+import type { OpenLibraryDoc } from '@/shared/api/types';
 
 describe('mapBook', () => {
   it('should correctly map all fields when full data is provided by API', () => {

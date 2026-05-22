@@ -1,33 +1,11 @@
-import { type CoverKey, COVER_SOURCES } from '../../../shared/config/covers';
-import {
-  COVER_BASE_URL,
-  PLACEHOLDER_COVER,
-} from '../../../shared/config/images';
-import type { Book } from './types';
-
-export type CoverSize = 'S' | 'M' | 'L';
-
-export const DEFAULT_COVER_SIZE: CoverSize = 'M';
+import { type ImageSize, DEFAULT_IMAGE_SIZE } from '@/shared/config/covers';
+import { COVER_BASE_URL, PLACEHOLDER_COVER } from '@/shared/config/covers';
 
 export const getCoverUrl = (
-  book: Book,
-  size: CoverSize = DEFAULT_COVER_SIZE
+  coverId?: number,
+  size: ImageSize = DEFAULT_IMAGE_SIZE
 ): string => {
-  const values: Record<CoverKey, string | number | undefined> = {
-    id: book.coverId,
-    isbn: book.isbn,
-    olid: book.olid,
-    oclc: book.oclc,
-    lccn: book.lccn,
-  };
-
-  for (const key of COVER_SOURCES) {
-    const value = values[key];
-
-    if (value) {
-      return `${COVER_BASE_URL}/${key}/${String(value)}-${size}.jpg`;
-    }
-  }
-
-  return PLACEHOLDER_COVER;
+  return coverId && coverId > 0
+    ? `${COVER_BASE_URL}/id/${String(coverId)}-${size}.jpg`
+    : PLACEHOLDER_COVER;
 };

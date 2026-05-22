@@ -1,18 +1,30 @@
-import { Component } from 'react';
-import { type Book } from '../model/types';
-import { getCoverUrl } from '../model/getCoverUrl';
+import { Link } from '@tanstack/react-router';
+import { type Book } from '@/entities/book/model/types';
+import { getCoverUrl } from '@/entities/book/model/getCoverUrl';
+import { Route as BookDetailsRoute } from '@/routes/_layout.book.$detailsId';
+import { Route as HomeRoute } from '@/routes/_layout';
 
-interface Props {
-  book: Book;
-}
+function BookCard({ book }: { book: Book }) {
+  const { title, author, year } = book;
+  const { page } = HomeRoute.useSearch();
 
-class BookCard extends Component<Props> {
-  render() {
-    const { title, author, year } = this.props.book;
+  const coverUrl = getCoverUrl(book.coverId);
+  const detailsId = book.id.replace('/works/', '');
 
-    const coverUrl = getCoverUrl(this.props.book);
-
-    return (
+  return (
+    <Link
+      to={BookDetailsRoute.to}
+      params={{ detailsId }}
+      search={{
+        page,
+        authorKeys: book.authorKeys?.join(','),
+        coverId: book.coverId,
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+      resetScroll={false}
+    >
       <div className="group border-border hover:border-primary/50 hover:shadow-primary/10 bg-card flex h-full cursor-pointer flex-col overflow-hidden rounded-xl border shadow-sm transition-all duration-300 hover:shadow-xl">
         <div className="bg-muted relative flex h-64 w-full items-center justify-center overflow-hidden px-4">
           <img
@@ -44,8 +56,8 @@ class BookCard extends Component<Props> {
           </div>
         </div>
       </div>
-    );
-  }
+    </Link>
+  );
 }
 
 export default BookCard;

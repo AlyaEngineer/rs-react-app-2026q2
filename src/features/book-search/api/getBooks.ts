@@ -1,12 +1,16 @@
-import { fetchBooks } from '../../../shared/api/client';
-import { mapBook } from '../../../entities/book/model/mapBook';
-import { filterBooks } from '../model/filterBooks';
-import type { Book } from '../../../entities/book/model/types';
+import { fetchBooks } from '@/shared/api/client';
+import { mapBook } from '@/entities/book/model/mapBook';
+import type { GetBooksResult } from '@/features/book-search/model/types';
 
-export const getBooks = async (term: string): Promise<Book[]> => {
-  const docs = await fetchBooks(term || 'all');
+export const getBooks = async (
+  term: string,
+  page: number
+): Promise<GetBooksResult> => {
+  const { docs, numFound } = await fetchBooks(term || 'all', page);
 
   const books = docs.map(mapBook);
 
-  return filterBooks(books, term);
+  const totalBooks = numFound;
+
+  return { books, totalBooks };
 };

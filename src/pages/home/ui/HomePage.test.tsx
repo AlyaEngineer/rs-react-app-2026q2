@@ -1,18 +1,33 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import App from './App';
-import ErrorBoundary from './app/ErrorBoundary';
-import ErrorFallback from './app/ui/ErrorFallback';
-import { getBooks } from './features/book-search/api/getBooks';
-import { type Book } from './entities/book/model/types';
-import ErrorTestButton from './app/ui/ErrorTestButton';
+import HomePage from '@/pages/home/ui/HomePage';
+import ErrorBoundary from '@/app/ui/ErrorBoundary';
+import ErrorFallback from '@/app/ui/ErrorFallback';
+import { getBooks } from '@/features/book-search/api/getBooks';
+import { type Book } from '@/entities/book/model/types';
+import ErrorTestButton from '@/app/ui/ErrorTestButton';
+import {
+  createRootRoute,
+  createRouter,
+  RouterProvider,
+} from '@tanstack/react-router';
 
-vi.mock('./features/book-search/api/getBooks', () => ({
+vi.mock('@/features/book-search/api/getBooks', () => ({
   getBooks: vi.fn(),
 }));
 
-describe('App component integration tests', () => {
+export async function renderWithRouter(ui: React.ReactElement) {
+  const router = createRouter({
+    routeTree: createRootRoute({ component: () => ui }),
+  });
+
+  await router.load();
+
+  return render(<RouterProvider router={router} />);
+}
+
+describe('HomePage integration tests', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     localStorage.clear();
@@ -37,15 +52,15 @@ describe('App component integration tests', () => {
         editionCount: 2,
       },
     ];
-    vi.mocked(getBooks).mockResolvedValue(mockBooks);
+    vi.mocked(getBooks).mockResolvedValue({ books: mockBooks, totalBooks: 2 });
 
-    render(<App />);
+    await renderWithRouter(<HomePage />);
 
     const input = screen.getByPlaceholderText(/Start typing/i);
     await user.type(input, 'Clean Code{Enter}');
 
     expect(localStorage.getItem('search_query')).toBe('Clean Code');
-    expect(getBooks).toHaveBeenCalledWith('Clean Code');
+    expect(getBooks).toHaveBeenCalledWith('Clean Code', undefined);
 
     await waitFor(() => {
       expect(screen.getByText(/Clean Code/i)).toBeInTheDocument();
@@ -70,9 +85,9 @@ describe('App component integration tests', () => {
       },
     ];
 
-    vi.mocked(getBooks).mockResolvedValue(mockBooks);
+    vi.mocked(getBooks).mockResolvedValue({ books: mockBooks, totalBooks: 2 });
 
-    render(<App />);
+    await renderWithRouter(<HomePage />);
 
     const input = screen.getByPlaceholderText(/start typing/i);
 
@@ -87,9 +102,9 @@ describe('App component integration tests', () => {
 
   it('should automatically read and apply search query from localStorage on mount', async () => {
     localStorage.setItem('search_query', 'Refactoring');
-    vi.mocked(getBooks).mockResolvedValue([]);
+    vi.mocked(getBooks).mockResolvedValue({ books: [], totalBooks: 0 });
 
-    render(<App />);
+    await renderWithRouter(<HomePage />);
 
     const input = screen.getByPlaceholderText(
       /Start typing/i
@@ -97,7 +112,7 @@ describe('App component integration tests', () => {
     expect(input.value).toBe('Refactoring');
 
     await waitFor(() => {
-      expect(getBooks).toHaveBeenCalledWith('Refactoring');
+      expect(getBooks).toHaveBeenCalledWith('Refactoring', undefined);
     });
   });
 
@@ -107,7 +122,7 @@ describe('App component integration tests', () => {
       new Error('Error 500: Server is temporarily unavailable')
     );
 
-    render(<App />);
+    await renderWithRouter(<HomePage />);
 
     const input = screen.getByPlaceholderText(/Start typing/i);
     await user.type(input, 'InvalidQuery{Enter}');
@@ -130,7 +145,7 @@ describe('App component integration tests', () => {
       value: { reload: vi.fn() },
     });
 
-    render(
+    await renderWithRouter(
       <ErrorBoundary fallback={<ErrorFallback />}>
         <ErrorTestButton />
       </ErrorBoundary>

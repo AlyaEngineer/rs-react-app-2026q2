@@ -2,7 +2,7 @@ import { Component, type ErrorInfo } from 'react';
 import type {
   ErrorBoundaryProps,
   ErrorBoundaryState,
-} from './model/errorBoundaryTypes';
+} from '@/app/model/errorBoundaryTypes';
 
 function logErrorToMyService(
   error: Error,

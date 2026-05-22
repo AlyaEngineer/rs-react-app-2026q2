@@ -1,12 +1,15 @@
-import type {
-  OpenLibraryDoc,
-  OpenLibraryError,
-  OpenLibraryResponse,
-} from './types';
-import { OPEN_LIBRARY_BASE_URL } from '../config/api';
+import type { OpenLibraryError, OpenLibraryResponse } from '@/shared/api/types';
+import { OPEN_LIBRARY_SEARCH_URL } from '@/shared/config/openLibraryApi';
 
-export const fetchBooks = async (term: string): Promise<OpenLibraryDoc[]> => {
-  const url = `${OPEN_LIBRARY_BASE_URL}?q=${encodeURIComponent(term)}&limit=20`;
+export const fetchBooks = async (
+  term: string,
+  page: number
+): Promise<OpenLibraryResponse> => {
+  const url =
+    OPEN_LIBRARY_SEARCH_URL +
+    `?q=${encodeURIComponent(term)}` +
+    `&limit=20` +
+    `&page=${page.toString()}`;
 
   const response = await fetch(url);
   if (!response.ok) {
@@ -37,5 +40,5 @@ export const fetchBooks = async (term: string): Promise<OpenLibraryDoc[]> => {
     throw new Error(`Error ${String(status)}: ${message}`);
   }
 
-  return ((await response.json()) as OpenLibraryResponse).docs;
+  return (await response.json()) as OpenLibraryResponse;
 };

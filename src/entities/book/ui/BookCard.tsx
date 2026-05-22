@@ -4,15 +4,11 @@ import { getCoverUrl } from '@/entities/book/model/getCoverUrl';
 import { Route as BookDetailsRoute } from '@/routes/_layout.book.$detailsId';
 import { Route as HomeRoute } from '@/routes/_layout';
 
-interface Props {
-  book: Book;
-}
-
-function BookCard({ book }: Props) {
+function BookCard({ book }: { book: Book }) {
   const { title, author, year } = book;
   const { page } = HomeRoute.useSearch();
 
-  const coverUrl = getCoverUrl(book);
+  const coverUrl = getCoverUrl(book.coverId);
   const detailsId = book.id.replace('/works/', '');
 
   return (
@@ -22,6 +18,7 @@ function BookCard({ book }: Props) {
       search={{
         page,
         authorKeys: book.authorKeys?.join(','),
+        coverId: book.coverId,
       }}
       onClick={(e) => {
         e.stopPropagation();

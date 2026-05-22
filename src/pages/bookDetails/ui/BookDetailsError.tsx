@@ -1,28 +1,23 @@
-import { useNavigate } from '@tanstack/react-router';
-import { X, AlertCircle } from 'lucide-react';
-import { Route as HomeRoute } from '@/routes/_layout';
+import { BookDetailsCloseButton } from '@/pages/bookDetails/ui/BookDetailsCloseButton';
+import { AlertCircle as AlertCircleIcon } from 'lucide-react';
 
 export function BookDetailsError() {
-  const navigate = useNavigate();
-  const { page } = HomeRoute.useSearch();
-
   return (
-    <aside className="relative p-6">
-      <button
-        onClick={() =>
-          void navigate({
-            to: '/',
-            resetScroll: false,
-            search: { page },
-          })
-        }
-        aria-label="Close details"
-        className="text-muted-foreground hover:text-foreground absolute top-4 right-4 text-xl transition-colors hover:cursor-pointer"
-      >
-        <X />
-      </button>
+    <aside
+      className="relative p-6"
+      aria-label="Book details error panel"
+      data-testid="book-details-error"
+    >
+      <div className="absolute top-0 right-6">
+        <BookDetailsCloseButton />
+      </div>
+
       <div className="text-muted-foreground flex flex-col items-center gap-3 pt-12 text-center">
-        <AlertCircle className="text-destructive h-10 w-10 opacity-70" />
+        <AlertCircleIcon
+          className="text-destructive h-10 w-10 opacity-70"
+          aria-hidden="true"
+        />
+
         <p className="font-medium">Failed to load book details</p>
         <p className="text-sm opacity-70">Please try again later</p>
       </div>

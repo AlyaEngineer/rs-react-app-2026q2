@@ -15,7 +15,6 @@ export default function HomePage() {
   const [results, setResults] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const lastTermRef = useRef<string | null>(null);
   const hasResultsRef = useRef(false);
   const navigate = useNavigate();
   const { page } = HomeRoute.useSearch();
@@ -23,10 +22,6 @@ export default function HomePage() {
 
   useEffect(() => {
     const fetchBooks = async () => {
-      if (searchTerm === lastTermRef.current && hasResultsRef.current) return;
-      lastTermRef.current = searchTerm;
-      hasResultsRef.current = false;
-
       setIsLoading(true);
       setError(null);
       setResults([]);

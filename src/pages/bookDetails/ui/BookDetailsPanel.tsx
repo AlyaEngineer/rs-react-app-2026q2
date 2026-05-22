@@ -1,33 +1,18 @@
-import { useNavigate } from '@tanstack/react-router';
 import { BookDetails } from '@/entities/book/ui/BookDetails';
 import { type BookDetails as BookDetailsType } from '@/entities/book/model/types';
-import { X } from 'lucide-react';
-import { Route as HomeRoute } from '@/routes/_layout';
+import { BookDetailsCloseButton } from '@/pages/bookDetails/ui/BookDetailsCloseButton';
 
-interface BookDetailsProps {
-  book: BookDetailsType;
-  detailsId: string;
-}
-
-export function BookDetailsPanel({ book, detailsId }: BookDetailsProps) {
-  const navigate = useNavigate();
-  const { page } = HomeRoute.useSearch();
-
+export function BookDetailsPanel({ book }: { book: BookDetailsType }) {
   return (
-    <aside key={detailsId} className="relative p-6">
-      <button
-        onClick={() =>
-          void navigate({
-            to: '/',
-            resetScroll: false,
-            search: { page },
-          })
-        }
-        aria-label="Close details"
-        className="text-muted-foreground hover:text-foreground absolute right-0 flex h-10 w-10 items-center justify-center transition-colors hover:cursor-pointer"
-      >
-        <X />
-      </button>
+    <aside
+      className="relative p-6"
+      aria-label="Book details"
+      data-testid="book-details-overlay"
+    >
+      <div className="absolute top-0 right-6">
+        <BookDetailsCloseButton />
+      </div>
+
       <BookDetails book={book} />
     </aside>
   );

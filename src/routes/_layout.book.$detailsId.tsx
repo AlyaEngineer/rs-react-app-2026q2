@@ -1,29 +1,32 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { getBookDetails } from '@/entities/book/api/getBookDetails';
-import { Loader2 } from 'lucide-react';
 import { BookDetailsError } from '@/pages/bookDetails/ui/BookDetailsError';
 import { BookDetailsPanel } from '@/pages/bookDetails/ui/BookDetailsPanel';
+import { BookDetailsLoader } from '@/pages/bookDetails/ui/BookDetailsLoader';
 
 export const Route = createFileRoute('/_layout/book/$detailsId')({
   validateSearch: (search: Record<string, unknown>) => ({
     authorKeys:
       typeof search.authorKeys === 'string' ? search.authorKeys : undefined,
+    coverId:
+      typeof search.coverId === 'string'
+        ? Number(search.coverId) || undefined
+        : undefined,
   }),
   loaderDeps: ({ search }) => ({
     authorKeys: search.authorKeys,
+    coverId: search.coverId,
   }),
+
   loader: ({ params, deps }) =>
-    getBookDetails(params.detailsId, deps.authorKeys?.split(',')),
-  pendingComponent: () => (
-    <div className="flex flex-col items-center gap-4 pt-12">
-      <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
-      <p className="text-muted-foreground text-sm">Loading book details...</p>
-    </div>
-  ),
+    getBookDetails(params.detailsId, deps.authorKeys?.split(','), deps.coverId),
+
+  pendingComponent: BookDetailsLoader,
+
   errorComponent: BookDetailsError,
+
   component: function BookDetailsPanelRoute() {
     const book = Route.useLoaderData();
-    const { detailsId } = Route.useParams();
-    return <BookDetailsPanel book={book} detailsId={detailsId} />;
+    return <BookDetailsPanel book={book} />;
   },
 });

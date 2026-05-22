@@ -5,14 +5,15 @@ export const techStack: string[] = [
   'TypeScript',
   'TanStack Router',
   'Tailwind CSS',
+  'Redux Toolkit',
 ];
 
-interface LinkItem {
+interface AuthorLink {
   href: string;
   label: ReactNode;
 }
 
-export const authorLinks: LinkItem[] = [
+export const authorLinks: AuthorLink[] = [
   {
     href: 'https://github.com/alyaengineer',
     label: <img src="/icon-github.png" alt="GitHub" className="h-6 w-6" />,

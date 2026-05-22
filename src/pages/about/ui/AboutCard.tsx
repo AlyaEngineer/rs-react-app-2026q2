@@ -1,18 +1,12 @@
 import type { ReactNode } from 'react';
 
-interface CardLink {
-  href: string;
-  label: ReactNode;
-}
-
 interface CardProps {
   icon: ReactNode;
   title: string;
   children: ReactNode;
-  links?: CardLink[];
 }
 
-export function Card({ icon, title, children, links }: CardProps) {
+export function Card({ icon, title, children }: CardProps) {
   return (
     <div className="bg-card flex flex-col rounded-xl border p-8 shadow-sm">
       <div className="mb-4 flex items-center gap-3">
@@ -23,22 +17,6 @@ export function Card({ icon, title, children, links }: CardProps) {
       </div>
 
       <div className="flex-1">{children}</div>
-
-      {links && links.length > 0 && (
-        <div className="mt-6 flex flex-wrap gap-4">
-          {links.map((link, i) => (
-            <a
-              key={i}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center font-medium transition hover:opacity-90"
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
-      )}
     </div>
   );
 }

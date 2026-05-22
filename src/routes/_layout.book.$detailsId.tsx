@@ -9,9 +9,9 @@ export const Route = createFileRoute('/_layout/book/$detailsId')({
     authorKeys:
       typeof search.authorKeys === 'string' ? search.authorKeys : undefined,
     coverId:
-      typeof search.coverId === 'string'
-        ? Number(search.coverId) || undefined
-        : undefined,
+      typeof search.coverId === 'number'
+        ? search.coverId
+        : Number(search.coverId) || undefined,
   }),
   loaderDeps: ({ search }) => ({
     authorKeys: search.authorKeys,

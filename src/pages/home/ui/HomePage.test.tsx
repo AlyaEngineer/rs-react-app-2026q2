@@ -41,7 +41,6 @@ describe('HomePage integration tests', () => {
         title: 'Clean Code',
         author: 'Robert C. Martin',
         year: 2008,
-        editionCount: 5,
         coverId: 12345,
       },
       {
@@ -49,7 +48,6 @@ describe('HomePage integration tests', () => {
         title: 'Refactoring',
         author: 'Martin Fowler',
         year: 0,
-        editionCount: 2,
       },
     ];
     vi.mocked(getBooks).mockResolvedValue({ books: mockBooks, totalBooks: 2 });
@@ -81,7 +79,6 @@ describe('HomePage integration tests', () => {
         title: 'Refactoring',
         author: 'Martin Fowler',
         year: 0,
-        editionCount: 2,
       },
     ];
 

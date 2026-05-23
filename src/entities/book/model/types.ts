@@ -4,13 +4,7 @@ export interface Book {
   author: string;
   authorKeys?: string[];
   year?: number;
-  subjects?: string[];
   coverId?: number;
-  isbn?: string;
-  olid?: string;
-  oclc?: string;
-  lccn?: string;
-  editionCount: number;
 }
 
 export interface WorkApiResponse {

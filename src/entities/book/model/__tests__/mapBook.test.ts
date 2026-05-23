@@ -9,13 +9,9 @@ describe('mapBook', () => {
       title: 'The Great Gatsby',
       author_name: ['F. Scott Fitzgerald', 'Additional Editor'],
       first_publish_year: 1920,
-      edition_count: 1179,
       subject: ['Fiction', 'Classics', 'American Literature', 'Drama'],
       cover_i: 98765,
-      isbn: ['9780743273565', '0743273567'],
       edition_key: ['OL24217392M', 'OL24217393M'],
-      oclc: ['61198642', '61198643'],
-      lccn: ['2004057849', '2004057850'],
     };
 
     const result = mapBook(mockFullDoc);
@@ -25,13 +21,7 @@ describe('mapBook', () => {
       title: 'The Great Gatsby',
       author: 'F. Scott Fitzgerald, Additional Editor',
       year: 1920,
-      editionCount: 1179,
-      subjects: ['Fiction', 'Classics', 'American Literature'],
       coverId: 98765,
-      isbn: '9780743273565',
-      olid: 'OL24217392M',
-      oclc: '61198642',
-      lccn: '2004057849',
     });
   });
 
@@ -48,13 +38,7 @@ describe('mapBook', () => {
       title: 'The Holy Bible',
       author: 'Unknown Author',
       year: undefined,
-      editionCount: 0,
-      subjects: [],
       coverId: undefined,
-      isbn: undefined,
-      olid: undefined,
-      oclc: undefined,
-      lccn: undefined,
     });
   });
 });

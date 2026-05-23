@@ -5,18 +5,22 @@ import ErrorBoundary from './ErrorBoundary';
 import ErrorFallback from './ErrorFallback';
 import { Header } from '@/widgets/header/ui/Header';
 import { ThemeProvider } from '@/app/providers/ThemeProvider';
+import { Provider } from 'react-redux';
+import { store } from '@/app/store/store';
 
 export function RootLayout() {
   return (
-    <ThemeProvider>
-      <>
-        <ErrorBoundary fallback={<ErrorFallback />}>
-          <Header />
-          <Outlet />
-        </ErrorBoundary>
+    <Provider store={store}>
+      <ThemeProvider>
+        <>
+          <ErrorBoundary fallback={<ErrorFallback />}>
+            <Header />
+            <Outlet />
+          </ErrorBoundary>
 
-        <TanStackRouterDevtools />
-      </>
-    </ThemeProvider>
+          <TanStackRouterDevtools />
+        </>
+      </ThemeProvider>
+    </Provider>
   );
 }

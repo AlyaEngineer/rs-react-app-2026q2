@@ -1,6 +1,7 @@
 import { getCoverUrl } from '@/entities/book/model/getCoverUrl';
 import { type BookDetails } from '@/entities/book/model/types';
 import { AuthorList } from '@/entities/book/ui/AuthorList';
+import { SubjectList } from '@/entities/book/ui/SubjectList';
 
 export function BookDetails({ book }: { book: BookDetails }) {
   const { title, coverId, authors, description, subjects } = book;
@@ -25,25 +26,7 @@ export function BookDetails({ book }: { book: BookDetails }) {
         </div>
       )}
 
-      {subjects && subjects.length > 0 && (
-        <div>
-          <h3 className="text-foreground mb-2 font-semibold">Subjects</h3>
-          <ul
-            className="flex flex-wrap gap-2"
-            aria-label="Subjects"
-            data-testid="subjects-list"
-          >
-            {subjects.map((subject) => (
-              <li
-                key={subject}
-                className="bg-secondary text-secondary-foreground rounded-full px-3 py-1 text-sm"
-              >
-                {subject}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <SubjectList subjects={subjects} />
     </div>
   );
 }

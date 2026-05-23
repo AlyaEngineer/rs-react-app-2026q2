@@ -13,9 +13,17 @@ export function ThemeToggleButton() {
       className="text-foreground hover:text-primary transition-colors hover:cursor-pointer"
     >
       {theme === 'dark' ? (
-        <LightThemeIcon className="h-6 w-6" aria-hidden="true" />
+        <LightThemeIcon
+          strokeWidth={1.5}
+          className="h-6 w-6"
+          aria-hidden="true"
+        />
       ) : (
-        <DarkThemeIcon className="h-6 w-6" aria-hidden="true" />
+        <DarkThemeIcon
+          strokeWidth={1.5}
+          className="h-6 w-6"
+          aria-hidden="true"
+        />
       )}
     </button>
   );

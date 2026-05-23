@@ -12,6 +12,8 @@ import {
   createRouter,
   RouterProvider,
 } from '@tanstack/react-router';
+import { store } from '@/app/store/store';
+import { Provider } from 'react-redux';
 
 vi.mock('@/features/book-search/api/getBooks', () => ({
   getBooks: vi.fn(),
@@ -24,7 +26,11 @@ export async function renderWithRouter(ui: React.ReactElement) {
 
   await router.load();
 
-  return render(<RouterProvider router={router} />);
+  return render(
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  );
 }
 
 describe('HomePage integration tests', () => {

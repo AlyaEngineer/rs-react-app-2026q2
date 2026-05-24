@@ -7,6 +7,7 @@ import { Header } from '@/widgets/header/ui/Header';
 import { ThemeProvider } from '@/app/providers/ThemeProvider';
 import { Provider } from 'react-redux';
 import { store } from '@/app/store/store';
+import { Flyout } from '@/features/flyout/ui/Flyout';
 
 export function RootLayout() {
   return (
@@ -16,6 +17,7 @@ export function RootLayout() {
           <ErrorBoundary fallback={<ErrorFallback />}>
             <Header />
             <Outlet />
+            <Flyout />
           </ErrorBoundary>
 
           <TanStackRouterDevtools />

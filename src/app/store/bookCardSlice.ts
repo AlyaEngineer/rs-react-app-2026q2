@@ -5,6 +5,9 @@ import type { RootState } from '@/app/store/store';
 export const selectSelectedBooks = (state: RootState) =>
   state.bookCard.selectedBookCard;
 
+export const selectedBooksCount = (state: RootState) =>
+  state.bookCard.selectedBookCard.length;
+
 const initialState = {
   selectedBookCard: [] as Book[],
 };
@@ -21,8 +24,12 @@ const bookCardSlice = createSlice({
         (book) => book.id !== action.payload
       );
     },
+    clearSelectedBooks(state) {
+      state.selectedBookCard = [];
+    },
   },
 });
 
 export const bookCardReducer = bookCardSlice.reducer;
-export const { addSelectedBook, removeSelectedBook } = bookCardSlice.actions;
+export const { addSelectedBook, removeSelectedBook, clearSelectedBooks } =
+  bookCardSlice.actions;

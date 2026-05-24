@@ -1,14 +1,14 @@
+import { clearSelectedBooks } from '@/app/store/bookCardSlice/bookCardSlice';
 import {
-  clearSelectedBooks,
-  selectedBooksCount,
   selectSelectedBooks,
-} from '@/app/store/bookCardSlice';
+  selectSelectedBooksCount,
+} from '@/app/store/bookCardSlice/bookCardSlice.selectors';
 import { useAppDispatch, useAppSelector } from '@/app/store/store';
 import { downloadCsv } from '@/features/flyout/model/downloadCsv';
 
 export function Flyout() {
   const dispatch = useAppDispatch();
-  const count = useAppSelector(selectedBooksCount);
+  const count = useAppSelector(selectSelectedBooksCount);
   const selectedBooks = useAppSelector(selectSelectedBooks);
 
   if (count === 0) return null;

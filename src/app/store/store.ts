@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { bookCardReducer } from './bookCardSlice';
+import { bookCardsReducer } from './bookCardSlice/bookCardSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const store = configureStore({
   reducer: {
-    bookCard: bookCardReducer,
+    bookCards: bookCardsReducer,
   },
 });
 

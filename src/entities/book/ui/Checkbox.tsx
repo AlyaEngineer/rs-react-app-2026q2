@@ -10,8 +10,13 @@ interface CheckboxProps {
 }
 
 export function Checkbox({ isSelected, className, onChange }: CheckboxProps) {
+  const CheckboxIcon = isSelected
+    ? SelectedCheckboxIcon
+    : NonSelectedCheckboxIcon;
+
   return (
-    <div
+    <button
+      type="button"
       className={className}
       onClick={(e) => {
         e.preventDefault();
@@ -21,11 +26,7 @@ export function Checkbox({ isSelected, className, onChange }: CheckboxProps) {
       role="checkbox"
       aria-checked={isSelected}
     >
-      {isSelected ? (
-        <SelectedCheckboxIcon strokeWidth={1} aria-hidden="true" />
-      ) : (
-        <NonSelectedCheckboxIcon strokeWidth={1} aria-hidden="true" />
-      )}
-    </div>
+      <CheckboxIcon strokeWidth={1} aria-hidden="true" />
+    </button>
   );
 }

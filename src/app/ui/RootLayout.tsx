@@ -13,15 +13,13 @@ export function RootLayout() {
   return (
     <Provider store={store}>
       <ThemeProvider>
-        <>
-          <ErrorBoundary fallback={<ErrorFallback />}>
-            <Header />
-            <Outlet />
-            <Flyout />
-          </ErrorBoundary>
+        <ErrorBoundary fallback={<ErrorFallback />}>
+          <Header />
+          <Outlet />
+          <Flyout />
+        </ErrorBoundary>
 
-          <TanStackRouterDevtools />
-        </>
+        <TanStackRouterDevtools />
       </ThemeProvider>
     </Provider>
   );

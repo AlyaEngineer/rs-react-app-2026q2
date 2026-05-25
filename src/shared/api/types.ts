@@ -4,12 +4,8 @@ export interface OpenLibraryDoc {
   author_name?: string[];
   author_key?: string[];
   first_publish_year?: number;
-  edition_count?: number;
   subject?: string[];
   cover_i?: number;
-  isbn?: string[];
-  lccn?: string[];
-  oclc?: string[];
   edition_key?: string[];
 }
 

@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router';
+import { ThemeToggleButton } from '@/widgets/header/ui/ThemeToggleButton';
 
 export const Header = () => {
   return (
@@ -23,6 +24,8 @@ export const Header = () => {
               About
             </Link>
           </nav>
+
+          <ThemeToggleButton />
         </div>
       </div>
     </header>

@@ -4,16 +4,23 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import ErrorBoundary from './ErrorBoundary';
 import ErrorFallback from './ErrorFallback';
 import { Header } from '@/widgets/header/ui/Header';
+import { ThemeProvider } from '@/app/providers/ThemeProvider';
+import { Provider } from 'react-redux';
+import { store } from '@/app/store/store';
+import { Flyout } from '@/features/flyout/ui/Flyout';
 
 export function RootLayout() {
   return (
-    <>
-      <ErrorBoundary fallback={<ErrorFallback />}>
-        <Header />
-        <Outlet />
-      </ErrorBoundary>
+    <Provider store={store}>
+      <ThemeProvider>
+        <ErrorBoundary fallback={<ErrorFallback />}>
+          <Header />
+          <Outlet />
+          <Flyout />
+        </ErrorBoundary>
 
-      <TanStackRouterDevtools />
-    </>
+        <TanStackRouterDevtools />
+      </ThemeProvider>
+    </Provider>
   );
 }

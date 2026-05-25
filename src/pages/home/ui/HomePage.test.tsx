@@ -12,6 +12,8 @@ import {
   createRouter,
   RouterProvider,
 } from '@tanstack/react-router';
+import { store } from '@/app/store/store';
+import { Provider } from 'react-redux';
 
 vi.mock('@/features/book-search/api/getBooks', () => ({
   getBooks: vi.fn(),
@@ -24,7 +26,11 @@ export async function renderWithRouter(ui: React.ReactElement) {
 
   await router.load();
 
-  return render(<RouterProvider router={router} />);
+  return render(
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  );
 }
 
 describe('HomePage integration tests', () => {
@@ -41,7 +47,6 @@ describe('HomePage integration tests', () => {
         title: 'Clean Code',
         author: 'Robert C. Martin',
         year: 2008,
-        editionCount: 5,
         coverId: 12345,
       },
       {
@@ -49,7 +54,6 @@ describe('HomePage integration tests', () => {
         title: 'Refactoring',
         author: 'Martin Fowler',
         year: 0,
-        editionCount: 2,
       },
     ];
     vi.mocked(getBooks).mockResolvedValue({ books: mockBooks, totalBooks: 2 });
@@ -81,7 +85,6 @@ describe('HomePage integration tests', () => {
         title: 'Refactoring',
         author: 'Martin Fowler',
         year: 0,
-        editionCount: 2,
       },
     ];
 

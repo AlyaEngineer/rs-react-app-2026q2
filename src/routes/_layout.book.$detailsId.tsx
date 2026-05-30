@@ -1,8 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { getBookDetails } from '@/entities/book/api/getBookDetails';
 import { BookDetailsError } from '@/pages/bookDetails/ui/BookDetailsError';
 import { BookDetailsPanel } from '@/pages/bookDetails/ui/BookDetailsPanel';
 import { BookDetailsLoader } from '@/pages/bookDetails/ui/BookDetailsLoader';
+import { useBookDetailsQuery } from '@/entities/book/api/bookApi';
 
 export const Route = createFileRoute('/_layout/book/$detailsId')({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -13,20 +13,20 @@ export const Route = createFileRoute('/_layout/book/$detailsId')({
         ? search.coverId
         : Number(search.coverId) || undefined,
   }),
-  loaderDeps: ({ search }) => ({
-    authorKeys: search.authorKeys,
-    coverId: search.coverId,
-  }),
-
-  loader: ({ params, deps }) =>
-    getBookDetails(params.detailsId, deps.authorKeys?.split(','), deps.coverId),
-
-  pendingComponent: BookDetailsLoader,
-
-  errorComponent: BookDetailsError,
 
   component: function BookDetailsPanelRoute() {
-    const book = Route.useLoaderData();
-    return <BookDetailsPanel book={book} />;
+    const { detailsId } = Route.useParams();
+    const { authorKeys, coverId } = Route.useSearch();
+
+    const { data, isLoading, isError } = useBookDetailsQuery({
+      id: detailsId,
+      authorKeys: authorKeys?.split(','),
+      fallbackCoverId: coverId,
+    });
+
+    if (isLoading) return <BookDetailsLoader />;
+    if (isError || !data) return <BookDetailsError />;
+
+    return <BookDetailsPanel book={data} />;
   },
 });

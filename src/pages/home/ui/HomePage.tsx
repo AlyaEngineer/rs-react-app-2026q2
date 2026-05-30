@@ -1,49 +1,31 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import Search from '@/features/book-search/ui/Search';
 import BookList from '@/widgets/book-list/BookList';
 import ErrorTestButton from '@/app/ui/ErrorTestButton';
 import { useLocalStorage } from '@/shared/lib/hooks/useLocalStorage';
-import { type Book } from '@/entities/book/model/types';
-import { getBooks } from '@/features/book-search/api/getBooks';
 import { Outlet, useChildMatches, useNavigate } from '@tanstack/react-router';
 import { Route as BookDetailsRoute } from '@/routes/_layout.book.$detailsId';
 import { Route as HomeRoute } from '@/routes/_layout';
 import { Pagination } from '@/features/pagination/ui/Pagination';
+import { useBookListQuery } from '@/features/book-search/api/searchApi';
 
 export default function HomePage() {
   const [searchTerm, setSearchTerm] = useLocalStorage('search_query', '');
-  const [results, setResults] = useState<Book[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const hasResultsRef = useRef(false);
   const navigate = useNavigate();
   const { page } = HomeRoute.useSearch();
-  const [totalBooks, setTotalBooks] = useState(0);
 
-  useEffect(() => {
-    const fetchBooks = async () => {
-      setIsLoading(true);
-      setError(null);
-      setResults([]);
+  const { data, isFetching, isError, error } = useBookListQuery({
+    term: searchTerm || 'all',
+    page,
+  });
 
-      try {
-        const { books, totalBooks } = await getBooks(searchTerm, page);
-        hasResultsRef.current = books.length > 0;
-        setResults(books);
-        setTotalBooks(totalBooks);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Something went wrong');
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const errorMessage =
+    error && 'status' in error
+      ? `Error ${String(error.status)}`
+      : 'Something went wrong';
 
-    void fetchBooks();
-  }, [searchTerm, page]);
-
-  const handleSearch = (term: string) => {
-    setSearchTerm(term.trim());
-  };
+  const books = data?.books ?? [];
+  const totalBooks = data?.totalBooks ?? 0;
 
   const childMatches = useChildMatches();
 
@@ -85,7 +67,7 @@ export default function HomePage() {
         </header>
 
         <section className="bg-card border-border rounded-xl border p-6 shadow-sm">
-          <Search initialValue={searchTerm} onSearch={handleSearch} />
+          <Search initialValue={searchTerm} onSearch={setSearchTerm} />
         </section>
 
         <ErrorTestButton />
@@ -93,25 +75,25 @@ export default function HomePage() {
 
       <section className="bg-background w-full grow p-12">
         <div className="text-muted-foreground mx-auto max-w-7xl">
-          {isLoading && (
+          {isFetching && (
             <div className="flex justify-center p-12">
               <div className="border-primary h-12 w-12 animate-spin rounded-full border-t-2 border-b-2" />
             </div>
           )}
 
-          {error && (
+          {isError && (
             <div className="bg-destructive/10 text-destructive border-destructive/20 rounded-xl border p-16 text-center">
               <p className="font-medium">Oooops! Error...</p>
-              <p>{error}</p>
+              <p>{errorMessage}</p>
             </div>
           )}
 
-          {!isLoading &&
-            !error &&
-            (results.length > 0 ? (
+          {!isFetching &&
+            !isError &&
+            (books.length > 0 ? (
               <>
                 <Pagination totalBooks={totalBooks} />
-                <BookList items={results} />
+                <BookList items={books} />
                 <Pagination totalBooks={totalBooks} />
               </>
             ) : (

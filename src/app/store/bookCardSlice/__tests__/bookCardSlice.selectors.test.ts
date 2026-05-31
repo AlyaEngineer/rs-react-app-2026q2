@@ -5,6 +5,7 @@ import {
 } from '@/app/store/bookCardSlice/bookCardSlice.selectors';
 import type { RootState } from '@/app/store/store';
 import type { Book } from '@/entities/book/model/types';
+import { openLibraryApi } from '@/shared/api/openLibraryApi';
 
 const book: Book = {
   id: '/works/OL1W',
@@ -14,6 +15,7 @@ const book: Book = {
 
 const makeState = (selectedBooks: Book[]): RootState => ({
   bookCards: { selectedBooks },
+  openLibraryApi: openLibraryApi.reducer(undefined, { type: '' }),
 });
 
 describe('bookCardSlice selectors', () => {

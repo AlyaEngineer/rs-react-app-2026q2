@@ -8,11 +8,14 @@ import { Route as BookDetailsRoute } from '@/routes/_layout.book.$detailsId';
 import { Route as HomeRoute } from '@/routes/_layout';
 import { Pagination } from '@/features/pagination/ui/Pagination';
 import { useBookListQuery } from '@/features/book-search/api/searchApi';
+import { useAppDispatch } from '@/app/store/store';
+import { openLibraryApi } from '@/shared/api/openLibraryApi';
 
 export default function HomePage() {
   const [searchTerm, setSearchTerm] = useLocalStorage('search_query', '');
   const navigate = useNavigate();
   const { page } = HomeRoute.useSearch();
+  const dispatch = useAppDispatch();
 
   const { data, isFetching, isError, error } = useBookListQuery({
     term: searchTerm || 'all',
@@ -67,7 +70,13 @@ export default function HomePage() {
         </header>
 
         <section className="bg-card border-border rounded-xl border p-6 shadow-sm">
-          <Search initialValue={searchTerm} onSearch={setSearchTerm} />
+          <Search
+            initialValue={searchTerm}
+            onSearch={setSearchTerm}
+            onRefresh={() =>
+              dispatch(openLibraryApi.util.invalidateTags(['Books']))
+            }
+          />
         </section>
 
         <ErrorTestButton />

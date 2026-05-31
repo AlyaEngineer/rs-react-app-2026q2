@@ -1,12 +1,14 @@
 import { type ChangeEvent, type SubmitEvent, useState } from 'react';
 import { Search as SearchIcon } from 'lucide-react';
+import { RefreshButton } from '@/shared/ui/RefreshButton';
 
 interface Props {
   initialValue: string;
   onSearch: (term: string) => void;
+  onRefresh: () => void;
 }
 
-function Search({ initialValue, onSearch }: Props) {
+function Search({ initialValue, onSearch, onRefresh }: Props) {
   const [inputValue, setInputValue] = useState(initialValue);
 
   const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
@@ -41,6 +43,8 @@ function Search({ initialValue, onSearch }: Props) {
       >
         Search
       </button>
+
+      <RefreshButton onRefresh={onRefresh} />
     </form>
   );
 }

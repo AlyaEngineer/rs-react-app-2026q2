@@ -108,6 +108,7 @@ export const bookApi = openLibraryApi.injectEndpoints({
           };
         }
       },
+      providesTags: (_result, _error, { id }) => [{ type: 'BookDetails', id }],
     }),
   }),
 });

@@ -27,6 +27,6 @@ export const Route = createFileRoute('/_layout/book/$detailsId')({
     if (isLoading) return <BookDetailsLoader />;
     if (isError || !data) return <BookDetailsError />;
 
-    return <BookDetailsPanel book={data} />;
+    return <BookDetailsPanel book={data} id={detailsId} />;
   },
 });

@@ -18,6 +18,7 @@ export const searchApi = openLibraryApi.injectEndpoints({
         books: response.docs.map(mapBook),
         totalBooks: response.numFound,
       }),
+      providesTags: ['Books'],
     }),
   }),
 });

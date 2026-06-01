@@ -1,26 +1,26 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
+import { http, HttpResponse } from 'msw';
+import { server } from '@/shared/mocks/server';
 import { fetchAuthor } from '@/entities/book/api/fetchAuthor';
 import { OPEN_LIBRARY_BASE_URL } from '@/shared/config/openLibraryApi';
 
-const mockFetch = vi.fn();
-vi.stubGlobal('fetch', mockFetch);
+const baseUrl = OPEN_LIBRARY_BASE_URL;
 
-function mockResponse(data: unknown, ok = true) {
-  mockFetch.mockResolvedValueOnce({
-    ok,
-    json: () => Promise.resolve(data),
+describe('fetchAuthor via MSW', () => {
+  beforeEach(() => {
+    server.resetHandlers();
   });
-}
-
-describe('fetchAuthor', () => {
-  beforeEach(() => mockFetch.mockReset());
 
   it('should return author data', async () => {
-    mockResponse({
-      name: 'Frank Herbert',
-      birth_date: '1920-10-08',
-      photos: [123],
-    });
+    server.use(
+      http.get(`${baseUrl}/authors/OL1A.json`, () => {
+        return HttpResponse.json({
+          name: 'Frank Herbert',
+          birth_date: '1920-10-08',
+          photos: [123],
+        });
+      })
+    );
     const result = await fetchAuthor('/authors/OL1A');
     expect(result).toEqual({
       name: 'Frank Herbert',
@@ -30,27 +30,46 @@ describe('fetchAuthor', () => {
   });
 
   it('should prepend /authors/ when key has no leading slash', async () => {
-    mockResponse({ name: 'Frank Herbert' });
-    await fetchAuthor('OL1A');
-    expect(mockFetch).toHaveBeenCalledWith(
-      `${OPEN_LIBRARY_BASE_URL}/authors/OL1A.json`
+    server.use(
+      http.get(`${baseUrl}/authors/OL1A.json`, () => {
+        return HttpResponse.json({
+          name: 'Frank Herbert',
+        });
+      })
     );
+    const result = await fetchAuthor('OL1A');
+    expect(result?.name).toBe('Frank Herbert');
   });
 
   it('should return undefined when response is not ok', async () => {
-    mockResponse({}, false);
+    server.use(
+      http.get(`${baseUrl}/authors/OL1A.json`, () => {
+        return new HttpResponse(null, { status: 500 });
+      })
+    );
     const result = await fetchAuthor('/authors/OL1A');
     expect(result).toBeUndefined();
   });
 
   it('should return undefined when fetch throws', async () => {
-    mockFetch.mockRejectedValueOnce(new Error('Network error'));
+    server.use(
+      http.get(`${baseUrl}/authors/OL1A.json`, () => {
+        throw new Error('Network error');
+      })
+    );
     const result = await fetchAuthor('/authors/OL1A');
     expect(result).toBeUndefined();
   });
 
   it('should return undefined photoId when no valid photos', async () => {
-    mockResponse({ name: 'Frank Herbert', photos: [-1, 0] });
+    server.use(
+      http.get(`${baseUrl}/authors/OL1A.json`, () => {
+        return HttpResponse.json({
+          name: 'Frank Herbert',
+          photos: [-1, 0],
+        });
+      })
+    );
     const result = await fetchAuthor('/authors/OL1A');
     expect(result?.photoId).toBeUndefined();
   });

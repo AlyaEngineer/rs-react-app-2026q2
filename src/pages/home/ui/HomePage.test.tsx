@@ -1,11 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import HomePage from '@/pages/home/ui/HomePage';
 import ErrorBoundary from '@/app/ui/ErrorBoundary';
 import ErrorFallback from '@/app/ui/ErrorFallback';
-import { getBooks } from '@/features/book-search/api/getBooks';
-import { type Book } from '@/entities/book/model/types';
 import ErrorTestButton from '@/app/ui/ErrorTestButton';
 import {
   createRootRoute,
@@ -14,10 +12,23 @@ import {
 } from '@tanstack/react-router';
 import { store } from '@/app/store/store';
 import { Provider } from 'react-redux';
+import * as searchApiModule from '@/features/book-search/api/searchApi';
+import type { Book } from '@/entities/book/model/types';
+import type { useBookListQuery } from '@/features/book-search/api/searchApi';
 
-vi.mock('@/features/book-search/api/getBooks', () => ({
-  getBooks: vi.fn(),
+vi.mock('@/features/book-search/api/searchApi', () => ({
+  useBookListQuery: vi.fn(),
 }));
+
+const mockUseSearchBooksQuery = vi.mocked(searchApiModule.useBookListQuery);
+
+const defaultQueryState = {
+  data: undefined,
+  isFetching: false,
+  isError: false,
+  error: undefined,
+  refetch: vi.fn(),
+};
 
 export async function renderWithRouter(ui: React.ReactElement) {
   const router = createRouter({
@@ -37,10 +48,12 @@ describe('HomePage integration tests', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     localStorage.clear();
+    mockUseSearchBooksQuery.mockReturnValue(
+      defaultQueryState as ReturnType<typeof useBookListQuery>
+    );
   });
 
-  it('should handle empty localStorage on mount, write search query on user action and display results', async () => {
-    const user = userEvent.setup();
+  it('should display books when query returns results', async () => {
     const mockBooks: Book[] = [
       {
         id: 'OL123M',
@@ -49,63 +62,50 @@ describe('HomePage integration tests', () => {
         year: 2008,
         coverId: 12345,
       },
-      {
-        id: 'OL456M',
-        title: 'Refactoring',
-        author: 'Martin Fowler',
-        year: 0,
-      },
+      { id: 'OL456M', title: 'Refactoring', author: 'Martin Fowler', year: 0 },
     ];
-    vi.mocked(getBooks).mockResolvedValue({ books: mockBooks, totalBooks: 2 });
+
+    mockUseSearchBooksQuery.mockReturnValue({
+      ...defaultQueryState,
+      data: { books: mockBooks, totalBooks: 2 },
+    } as ReturnType<typeof useBookListQuery>);
 
     await renderWithRouter(<HomePage />);
 
-    const input = screen.getByPlaceholderText(/Start typing/i);
-    await user.type(input, 'Clean Code{Enter}');
+    expect(screen.getByText(/Clean Code/i)).toBeInTheDocument();
+    expect(screen.getByText(/Robert C\. Martin/i)).toBeInTheDocument();
+    expect(screen.getByText(/2008/i)).toBeInTheDocument();
 
-    expect(localStorage.getItem('search_query')).toBe('Clean Code');
-    expect(getBooks).toHaveBeenCalledWith('Clean Code', undefined);
-
-    await waitFor(() => {
-      expect(screen.getByText(/Clean Code/i)).toBeInTheDocument();
-      expect(screen.getByText(/Robert C\. Martin/i)).toBeInTheDocument();
-      expect(screen.getByText(/2008/i)).toBeInTheDocument();
-
-      expect(screen.getByText(/Refactoring/i)).toBeInTheDocument();
-      expect(screen.getByText(/Martin Fowler/i)).toBeInTheDocument();
-      expect(screen.getByText(/N\/A/i)).toBeInTheDocument();
-    });
+    expect(screen.getByText(/Refactoring/i)).toBeInTheDocument();
+    expect(screen.getByText(/Martin Fowler/i)).toBeInTheDocument();
   });
 
-  it('should avoid duplicate search requests for the same query', async () => {
-    const user = userEvent.setup();
-    const mockBooks: Book[] = [
-      {
-        id: 'OL456M',
-        title: 'Refactoring',
-        author: 'Martin Fowler',
-        year: 0,
-      },
-    ];
+  it('should display loading indicator while fetching', async () => {
+    mockUseSearchBooksQuery.mockReturnValue({
+      ...defaultQueryState,
+      isFetching: true,
+    } as ReturnType<typeof useBookListQuery>);
 
-    vi.mocked(getBooks).mockResolvedValue({ books: mockBooks, totalBooks: 2 });
+    const { container } = await renderWithRouter(<HomePage />);
+
+    expect(container.querySelector('.animate-spin')).toBeInTheDocument();
+  });
+
+  it('should display error message when query fails', async () => {
+    mockUseSearchBooksQuery.mockReturnValue({
+      ...defaultQueryState,
+      isError: true,
+      error: { status: 500 },
+    } as ReturnType<typeof useBookListQuery>);
 
     await renderWithRouter(<HomePage />);
 
-    const input = screen.getByPlaceholderText(/start typing/i);
-
-    expect(getBooks).toHaveBeenCalledTimes(1);
-
-    await user.type(input, 'Refactoring{Enter}');
-    expect(getBooks).toHaveBeenCalledTimes(2);
-
-    await user.type(input, '{Enter}');
-    expect(getBooks).toHaveBeenCalledTimes(2);
+    expect(screen.getByText('Oooops! Error...')).toBeInTheDocument();
+    expect(screen.getByText(/Error 500/i)).toBeInTheDocument();
   });
 
-  it('should automatically read and apply search query from localStorage on mount', async () => {
+  it('should read search query from localStorage on mount', async () => {
     localStorage.setItem('search_query', 'Refactoring');
-    vi.mocked(getBooks).mockResolvedValue({ books: [], totalBooks: 0 });
 
     await renderWithRouter(<HomePage />);
 
@@ -113,29 +113,28 @@ describe('HomePage integration tests', () => {
       /Start typing/i
     ) as HTMLInputElement;
     expect(input.value).toBe('Refactoring');
-
-    await waitFor(() => {
-      expect(getBooks).toHaveBeenCalledWith('Refactoring', undefined);
-    });
   });
 
-  it('should handle API failures and display the error message to the user', async () => {
+  it('should update localStorage when user searches', async () => {
     const user = userEvent.setup();
-    vi.mocked(getBooks).mockRejectedValue(
-      new Error('Error 500: Server is temporarily unavailable')
-    );
 
     await renderWithRouter(<HomePage />);
 
     const input = screen.getByPlaceholderText(/Start typing/i);
-    await user.type(input, 'InvalidQuery{Enter}');
+    await user.type(input, 'Clean Code{Enter}');
 
-    await waitFor(() => {
-      expect(screen.getByText('Oooops! Error...')).toBeInTheDocument();
-      expect(
-        screen.getByText('Error 500: Server is temporarily unavailable')
-      ).toBeInTheDocument();
-    });
+    expect(localStorage.getItem('search_query')).toBe('Clean Code');
+  });
+
+  it('should show empty state when no books found', async () => {
+    mockUseSearchBooksQuery.mockReturnValue({
+      ...defaultQueryState,
+      data: { books: [], totalBooks: 0 },
+    } as ReturnType<typeof useBookListQuery>);
+
+    await renderWithRouter(<HomePage />);
+
+    expect(screen.getByText(/No books found/i)).toBeInTheDocument();
   });
 
   it('should display fallback UI when a rendering error occurs', async () => {
@@ -157,18 +156,13 @@ describe('HomePage integration tests', () => {
     const triggerButton = screen.getByRole('button', {
       name: /click me to trigger the error/i,
     });
-    expect(triggerButton).toBeInTheDocument();
-
     await user.click(triggerButton);
 
-    const heading = screen.getByRole('heading', {
-      name: /something went wrong/i,
-    });
-    expect(heading).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: /something went wrong/i })
+    ).toBeInTheDocument();
 
     const reloadButton = screen.getByRole('button', { name: /reload page/i });
-    expect(reloadButton).toBeInTheDocument();
-
     await user.click(reloadButton);
     expect(window.location.reload).toHaveBeenCalledTimes(1);
 

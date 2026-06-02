@@ -19,7 +19,7 @@ export function BookDetailsCloseButton() {
       onClick={onClose}
       aria-label="Close book details"
       data-testid="book-details-close-button"
-      className="text-muted-foreground hover:text-foreground absolute flex h-10 w-10 items-center justify-center transition-colors hover:cursor-pointer"
+      className="text-muted-foreground hover:text-foreground flex h-10 w-10 items-center justify-center transition-colors hover:cursor-pointer"
     >
       <CloseIcon aria-hidden="true" />
     </button>

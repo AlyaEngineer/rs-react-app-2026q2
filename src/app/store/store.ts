@@ -1,11 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { bookCardsReducer } from './bookCardSlice/bookCardSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { openLibraryApi } from '@/shared/api/openLibraryApi';
 
 export const store = configureStore({
   reducer: {
     bookCards: bookCardsReducer,
+    [openLibraryApi.reducerPath]: openLibraryApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(openLibraryApi.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;

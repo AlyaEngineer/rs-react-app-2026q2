@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router';
+import Link from 'next/link';
 import { ThemeToggleButton } from '@/widgets/header/ui/ThemeToggleButton';
 
 export const Header = () => {
@@ -8,18 +8,14 @@ export const Header = () => {
         <div className="ml-auto flex items-center gap-8">
           <nav className="flex items-center gap-6 text-xl">
             <Link
-              to="/"
+              href="/?page=1"
               className="text-foreground hover:text-primary transition-colors"
-              activeProps={{ className: 'text-primary' }}
-              activeOptions={{ exact: true, includeSearch: false }}
-              search={{ page: 1 }}
             >
               Home
             </Link>
             <Link
-              to="/about"
+              href="/about"
               className="text-foreground hover:text-primary transition-colors"
-              activeProps={{ className: 'text-primary' }}
             >
               About
             </Link>

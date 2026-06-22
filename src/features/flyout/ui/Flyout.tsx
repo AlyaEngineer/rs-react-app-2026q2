@@ -1,9 +1,9 @@
-import { clearSelectedBooks } from '@/app/store/bookCardSlice/bookCardSlice';
+import { clearSelectedBooks } from '@/shared/store/bookCardSlice/bookCardSlice';
 import {
   selectSelectedBooks,
   selectSelectedBooksCount,
-} from '@/app/store/bookCardSlice/bookCardSlice.selectors';
-import { useAppDispatch, useAppSelector } from '@/app/store/store';
+} from '@/shared/store/bookCardSlice/bookCardSlice.selectors';
+import { useAppDispatch, useAppSelector } from '@/shared/store/hooks';
 import { downloadCsv } from '@/features/flyout/model/downloadCsv';
 
 export function Flyout() {

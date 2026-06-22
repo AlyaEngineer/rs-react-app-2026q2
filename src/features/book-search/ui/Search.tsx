@@ -1,3 +1,5 @@
+'use client';
+
 import { type ChangeEvent, type SubmitEvent, useState } from 'react';
 import { Search as SearchIcon } from 'lucide-react';
 import { RefreshButton } from '@/shared/ui/RefreshButton';

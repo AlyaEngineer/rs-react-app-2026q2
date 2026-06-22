@@ -11,7 +11,7 @@ import vitest from 'eslint-plugin-vitest';
 import tailwind from 'eslint-plugin-tailwindcss';
 
 export default defineConfig([
-  globalIgnores(['dist', 'node_modules', 'coverage']),
+  globalIgnores(['dist', 'node_modules', 'coverage', '.next']),
 
   {
     files: ['**/*.{ts,tsx,js,jsx}'],

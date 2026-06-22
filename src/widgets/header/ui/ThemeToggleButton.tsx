@@ -1,5 +1,5 @@
 import { Sun as LightThemeIcon, Moon as DarkThemeIcon } from 'lucide-react';
-import { useTheme } from '@/app/model/themeContext';
+import { useTheme } from '@/shared/model/themeContext';
 
 export function ThemeToggleButton() {
   const { theme, toggleTheme } = useTheme();
@@ -7,6 +7,7 @@ export function ThemeToggleButton() {
   return (
     <button
       onClick={toggleTheme}
+      suppressHydrationWarning
       aria-label={
         theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
       }

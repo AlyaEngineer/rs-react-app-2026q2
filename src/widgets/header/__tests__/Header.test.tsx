@@ -5,7 +5,7 @@ import {
   createRouter,
   RouterProvider,
 } from '@tanstack/react-router';
-import { ThemeProvider } from '@/app/providers/ThemeProvider';
+import { ThemeProvider } from '@/shared/providers/ThemeProvider';
 import { Header } from '@/widgets/header/ui/Header';
 
 async function renderHeader(ui: React.ReactNode) {

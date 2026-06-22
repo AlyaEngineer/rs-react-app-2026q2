@@ -1,10 +1,14 @@
-import { Link } from '@tanstack/react-router';
+'use client';
+
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { calculateTotalPages } from '@/features/book-search/model/calculateTotalPages';
-import { Route as HomeRoute } from '@/routes/_layout';
 import { createPaginationRange } from '@/features/pagination/model/createPaginationRange';
+import { parsePage } from '@/features/pagination/model/parsePage';
 
 export function Pagination({ totalBooks }: { totalBooks: number }) {
-  const { page } = HomeRoute.useSearch();
+  const searchParams = useSearchParams();
+  const page = parsePage(searchParams.get('page'));
 
   const totalPages = calculateTotalPages(totalBooks);
 
@@ -18,14 +22,12 @@ export function Pagination({ totalBooks }: { totalBooks: number }) {
   const isFirstPage = page === 1;
   const isLastPage = page === totalPages;
 
+  const hrefForPage = (p: number | string) => `/?page=${String(p)}`;
+
   return (
     <div className="my-10 flex flex-wrap items-center justify-center gap-2">
       <Link
-        to="/"
-        search={(prev) => ({
-          ...prev,
-          page: Math.max(1, page - 1),
-        })}
+        href={hrefForPage(Math.max(1, page - 1))}
         aria-disabled={isFirstPage}
         className={`rounded-full border px-4 py-2 text-sm transition-all ${
           isFirstPage
@@ -47,11 +49,7 @@ export function Pagination({ totalBooks }: { totalBooks: number }) {
         ) : (
           <Link
             key={pageItem}
-            to="/"
-            search={(prev) => ({
-              ...prev,
-              page: pageItem,
-            })}
+            href={hrefForPage(pageItem)}
             className={`rounded-full border px-4 py-2 text-sm transition-all duration-200 ${
               pageItem === page
                 ? 'border-primary bg-primary text-primary-foreground'
@@ -64,11 +62,7 @@ export function Pagination({ totalBooks }: { totalBooks: number }) {
       )}
 
       <Link
-        to="/"
-        search={(prev) => ({
-          ...prev,
-          page: Math.min(totalPages, page + 1),
-        })}
+        href={hrefForPage(Math.min(totalPages, page + 1))}
         aria-disabled={isLastPage}
         className={`rounded-full border px-4 py-2 text-sm transition-all ${
           isLastPage

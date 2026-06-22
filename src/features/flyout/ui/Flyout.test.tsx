@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { bookCardsReducer } from '@/app/store/bookCardSlice/bookCardSlice';
+import { bookCardsReducer } from '@/shared/store/bookCardSlice/bookCardSlice';
 import { Flyout } from '@/features/flyout/ui/Flyout';
 import type { Book } from '@/entities/book/model/types';
 

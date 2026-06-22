@@ -1,9 +1,11 @@
+'use server';
+
 import { getCoverUrl } from '@/entities/book/model/getCoverUrl';
 import type { Book } from '@/entities/book/model/types';
 import { OPEN_LIBRARY_BASE_URL } from '@/shared/config/openLibraryApi';
 
-export const downloadCsv = (selectedBooks: Book[]) => {
-  if (selectedBooks.length === 0) return;
+// eslint-disable-next-line @typescript-eslint/require-await
+export async function generateCsv(selectedBooks: Book[]): Promise<string> {
   const headers = [
     'ID',
     'Title',
@@ -28,15 +30,5 @@ export const downloadCsv = (selectedBooks: Book[]) => {
     ...rows.map((row) => row.join(', ')),
   ].join('\r\n');
 
-  const blob = new Blob(['\ufeff' + csvContent], {
-    type: 'text/csv;charset=utf-8',
-  });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = `${String(selectedBooks.length)}_items.csv`;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
-};
+  return '\ufeff' + csvContent;
+}

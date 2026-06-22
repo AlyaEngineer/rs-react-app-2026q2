@@ -4,7 +4,8 @@ import {
   selectSelectedBooksCount,
 } from '@/shared/store/bookCardSlice/bookCardSlice.selectors';
 import { useAppDispatch, useAppSelector } from '@/shared/store/hooks';
-import { downloadCsv } from '@/features/flyout/model/downloadCsv';
+import { generateCsv } from '@/features/flyout/model/generateCsv';
+import { downloadCsvFile } from '@/features/flyout/model/downloadCsvFile';
 
 export function Flyout() {
   const dispatch = useAppDispatch();
@@ -13,8 +14,9 @@ export function Flyout() {
 
   if (count === 0) return null;
 
-  const handleDownload = () => {
-    downloadCsv(selectedBooks);
+  const handleDownload = async () => {
+    const csvContent = await generateCsv(selectedBooks);
+    downloadCsvFile(csvContent, `${String(selectedBooks.length)}_items.csv`);
   };
 
   return (
@@ -41,7 +43,7 @@ export function Flyout() {
           <button
             className="bg-accent/20 border-accent text-primary-foreground hover:bg-accent/30 cursor-pointer rounded-lg border px-4 py-2 text-sm whitespace-nowrap transition-all duration-300"
             aria-label="Download selected books as CSV"
-            onClick={handleDownload}
+            onClick={() => void handleDownload()}
           >
             Download
           </button>

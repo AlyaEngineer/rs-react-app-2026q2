@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 export const techStack: string[] = [
   'React',
   'TypeScript',
-  'TanStack Router',
+  'Next.js',
   'Tailwind CSS',
   'Redux Toolkit',
 ];

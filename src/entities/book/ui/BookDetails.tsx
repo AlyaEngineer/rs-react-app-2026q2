@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { getCoverUrl } from '@/entities/book/model/getCoverUrl';
 import { type BookDetails } from '@/entities/book/model/types';
 import { AuthorList } from '@/entities/book/ui/AuthorList';
@@ -9,10 +10,13 @@ export function BookDetails({ book }: { book: BookDetails }) {
 
   return (
     <div className="space-y-6" data-testid="book-details">
-      <img
+      <Image
         src={coverUrl}
         alt={title}
-        className="mx-auto h-auto max-h-150 w-auto rounded-lg object-cover shadow-md"
+        width={400}
+        height={600}
+        unoptimized
+        className="mx-auto h-auto max-h-150 w-full max-w-xs rounded-lg object-contain shadow-md"
       />
 
       <h2 className="text-foreground text-2xl font-bold">{title}</h2>

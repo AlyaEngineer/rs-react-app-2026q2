@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { type Book } from '@/entities/book/model/types';
 import { getCoverUrl } from '@/entities/book/model/getCoverUrl';
 import { Checkbox } from './Checkbox';
@@ -15,10 +16,12 @@ function BookCard({ book }: { book: Book }) {
       data-testid="book-card"
     >
       <div className="bg-muted relative flex h-64 w-full items-center justify-center overflow-hidden px-4">
-        <img
+        <Image
           src={coverUrl}
           alt={title}
-          className="h-auto max-h-full w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
+          fill
+          sizes="(max-width: 768px) 50vw, 25vw"
+          className="object-contain transition-transform duration-300 group-hover:scale-105"
         />
       </div>
 

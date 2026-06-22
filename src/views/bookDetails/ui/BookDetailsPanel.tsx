@@ -34,7 +34,9 @@ export function BookDetailsPanel({ book, id }: Props) {
         </div>
       </div>
 
-      <BookDetails book={book} />
+      <div className="pt-12">
+        <BookDetails book={book} />
+      </div>
     </aside>
   );
 }

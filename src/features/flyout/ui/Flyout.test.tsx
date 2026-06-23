@@ -3,15 +3,20 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { bookCardsReducer } from '@/app/store/bookCardSlice/bookCardSlice';
+import { bookCardsReducer } from '@/shared/store/bookCardSlice/bookCardSlice';
 import { Flyout } from '@/features/flyout/ui/Flyout';
 import type { Book } from '@/entities/book/model/types';
 
-vi.mock('@/features/flyout/model/downloadCsv', () => ({
-  downloadCsv: vi.fn(),
+vi.mock('@/features/flyout/model/generateCsv', () => ({
+  generateCsv: vi.fn(() => Promise.resolve('mocked,csv,content')),
 }));
 
-import { downloadCsv } from '@/features/flyout/model/downloadCsv';
+vi.mock('@/features/flyout/model/downloadCsvFile', () => ({
+  downloadCsvFile: vi.fn(),
+}));
+
+import { generateCsv } from '@/features/flyout/model/generateCsv';
+import { downloadCsvFile } from '@/features/flyout/model/downloadCsvFile';
 
 const book: Book = {
   id: '/works/OL1W',
@@ -63,12 +68,16 @@ describe('Flyout', () => {
     expect(screen.queryByTestId('flyout')).not.toBeInTheDocument();
   });
 
-  it('should call downloadCsv with selected books on Download click', async () => {
+  it('should generate csv on server and trigger download on Download click', async () => {
     const user = userEvent.setup();
     renderFlyout([book]);
     await user.click(
       screen.getByRole('button', { name: 'Download selected books as CSV' })
     );
-    expect(downloadCsv).toHaveBeenCalledWith([book]);
+    expect(generateCsv).toHaveBeenCalledWith([book]);
+    expect(downloadCsvFile).toHaveBeenCalledWith(
+      'mocked,csv,content',
+      '1_items.csv'
+    );
   });
 });

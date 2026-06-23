@@ -1,10 +1,10 @@
-import { useAppDispatch, useAppSelector } from '@/app/store/store';
+import { useAppDispatch, useAppSelector } from '@/shared/store/hooks';
 import {
   addSelectedBook,
   removeSelectedBook,
-} from '@/app/store/bookCardSlice/bookCardSlice';
+} from '@/shared/store/bookCardSlice/bookCardSlice';
 import { type Book } from '@/entities/book/model/types';
-import { selectSelectedBooks } from '@/app/store/bookCardSlice/bookCardSlice.selectors';
+import { selectSelectedBooks } from '@/shared/store/bookCardSlice/bookCardSlice.selectors';
 
 export function useBookSelection(book: Book) {
   const dispatch = useAppDispatch();

@@ -1,0 +1,32 @@
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
+
+export default function NotFound() {
+  const t = useTranslations('notFound');
+
+  return (
+    <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4 p-20 text-center">
+      <h1 className="text-primary animate-bounce text-9xl font-extrabold">
+        404
+      </h1>
+      <h2 className="text-foreground mt-4 mb-2 text-3xl font-bold">
+        {t('title')}
+      </h2>
+      <p className="text-muted-foreground mb-8 max-w-md text-balance">
+        {t('description')}
+      </p>
+      <Link
+        href="/?page=1"
+        className="bg-primary text-primary-foreground cursor-pointer rounded-lg px-6 py-2 text-lg transition-opacity duration-200 hover:opacity-90 active:scale-95"
+      >
+        {t('button')}
+      </Link>
+    </div>
+  );
+}
+
+// import { NotFoundPage } from '@/views/notFound/ui/NotFoundPage';
+
+// export default function NotFound() {
+//   return <NotFoundPage />;
+// }

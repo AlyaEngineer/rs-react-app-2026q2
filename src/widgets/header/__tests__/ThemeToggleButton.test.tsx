@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeToggleButton } from '@/widgets/header/ui/ThemeToggleButton';
-import { ThemeContext } from '@/app/model/themeContext';
+import { ThemeContext } from '@/shared/model/themeContext';
 
 function renderWithTheme(theme: 'light' | 'dark') {
   const toggleTheme = vi.fn();

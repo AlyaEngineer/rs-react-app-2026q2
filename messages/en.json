@@ -1,0 +1,78 @@
+{
+  "header": {
+    "home": "Home",
+    "about": "About"
+  },
+
+  "home": {
+    "title": "Discover Your Next Lovely Book",
+    "subtitleFirst": "Dive into millions of books in the open library",
+    "subtitleSecond": "for every book ever published",
+
+    "loading": "Loading...",
+    "errorTitle": "Oooops! Error...",
+    "unknownError": "Something went wrong",
+
+    "empty": "No books found. Try another search."
+  },
+
+  "search": {
+    "placeholder": "Start typing a book title or author...",
+    "submit": "Search"
+  },
+
+  "flyout": {
+    "selected": "Selected books",
+    "unselect": "Unselect all",
+    "download": "Download",
+
+    "unselectAria": "Unselect all books",
+    "downloadAria": "Download selected books as CSV"
+  },
+
+  "about": {
+    "appTitle": "About the App",
+
+    "appText1": "BookFinder is a web application for searching and discovering books using the Open Library API — a free, open catalog of millions of titles from around the world.",
+
+    "appText2": "You can search and instantly browse results from one of the largest digital libraries available.",
+
+    "authorTitle": "About the Author",
+
+    "authorText1": "Hi, I am Alla — a frontend developer currently leveling up through the RS School React Course.",
+
+    "authorText2": "This project was built as part of the course curriculum to practice real-world React development: working with external APIs, client-side routing, TypeScript, and modern tooling."
+  },
+
+  "notFound": {
+    "title": "Page Not Found",
+
+    "description": "The page you are looking for does not exist, has been removed, or is temporarily unavailable.",
+
+    "button": "Return to Home Page"
+  },
+
+  "pagination": {
+    "prev": "Prev",
+    "next": "Next"
+  },
+
+  "erroTestButton": {
+    "click me": "Click me to trigger the error"
+  },
+
+  "errorFallback":{
+    "title": "Something went wrong!",
+    "message": "Try refreshing the page or coming back later.",
+    "button": "Reload page"
+  },
+
+  "bookDetailLoader": {
+    "loader": "Loading book details..."
+  },
+
+  "bookDetailsPanel": {
+    "description": "Description",
+    "subjects": "Subjects"
+  }
+}

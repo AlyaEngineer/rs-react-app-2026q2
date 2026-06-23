@@ -3,10 +3,12 @@ import { getCoverUrl } from '@/entities/book/model/getCoverUrl';
 import { type BookDetails } from '@/entities/book/model/types';
 import { AuthorList } from '@/entities/book/ui/AuthorList';
 import { SubjectList } from '@/entities/book/ui/SubjectList';
+import { useTranslations } from 'next-intl';
 
 export function BookDetails({ book }: { book: BookDetails }) {
   const { title, coverId, authors, description, subjects } = book;
   const coverUrl = getCoverUrl(coverId, 'L');
+  const t = useTranslations('bookDetailsPanel');
 
   return (
     <div className="space-y-6" data-testid="book-details">
@@ -25,7 +27,9 @@ export function BookDetails({ book }: { book: BookDetails }) {
 
       {description && (
         <div>
-          <h3 className="text-foreground mb-2 font-semibold">Description</h3>
+          <h3 className="text-foreground mb-2 font-semibold">
+            {t('description')}
+          </h3>
           <p className="text-muted-foreground leading-7">{description}</p>
         </div>
       )}

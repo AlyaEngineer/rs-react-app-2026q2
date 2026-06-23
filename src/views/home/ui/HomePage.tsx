@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, type ReactNode } from 'react';
+import { useTranslations } from 'next-intl';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Search from '@/features/book-search/ui/Search';
 import BookList from '@/widgets/book-list/BookList';
@@ -13,6 +14,7 @@ import { openLibraryApi } from '@/shared/api/openLibraryApi';
 import { parsePage } from '@/features/pagination/model/parsePage';
 
 export default function HomePage({ children }: { children?: ReactNode }) {
+  const t = useTranslations('home');
   const [searchTerm, setSearchTerm] = useLocalStorage('search_query', '');
   const router = useRouter();
   const pathname = usePathname();
@@ -28,7 +30,7 @@ export default function HomePage({ children }: { children?: ReactNode }) {
   const errorMessage =
     error && 'status' in error
       ? `Error ${String(error.status)}`
-      : 'Something went wrong';
+      : t('unknownError');
 
   const books = data?.books ?? [];
   const totalBooks = data?.totalBooks ?? 0;
@@ -57,11 +59,11 @@ export default function HomePage({ children }: { children?: ReactNode }) {
       <div className="mx-auto mb-12 w-full max-w-7xl space-y-8 px-6">
         <header className="text-center">
           <h1 className="text-foreground mb-8 text-5xl font-bold">
-            Discover Your Next Lovely Book
+            {t('title')}
           </h1>
           <p className="text-muted-foreground mx-auto max-w-2xl text-xl">
-            <span>Dive into millions of books in the open library</span>
-            <span className="block">for every book ever published</span>
+            <span>{t('subtitleFirst')}</span>
+            <span className="block">{t('subtitleSecond')}</span>
           </p>
         </header>
 
@@ -88,7 +90,7 @@ export default function HomePage({ children }: { children?: ReactNode }) {
 
           {isError && (
             <div className="bg-destructive/10 text-destructive border-destructive/20 rounded-xl border p-16 text-center">
-              <p className="font-medium">Oooops! Error...</p>
+              <p className="font-medium">{t('errorTitle')}</p>
               <p>{errorMessage}</p>
             </div>
           )}
@@ -104,7 +106,7 @@ export default function HomePage({ children }: { children?: ReactNode }) {
             ) : (
               <div className="bg-accent/10 text-accent border-accent rounded-xl border p-16 text-center">
                 <p className="text-muted-foreground text-center font-medium">
-                  No books found. Try another search.
+                  {t('empty')}
                 </p>
               </div>
             ))}

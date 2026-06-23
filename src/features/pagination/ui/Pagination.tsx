@@ -1,12 +1,14 @@
 'use client';
 
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
+import { Link } from '@/i18n/navigation';
 import { calculateTotalPages } from '@/features/book-search/model/calculateTotalPages';
 import { createPaginationRange } from '@/features/pagination/model/createPaginationRange';
 import { parsePage } from '@/features/pagination/model/parsePage';
 
 export function Pagination({ totalBooks }: { totalBooks: number }) {
+  const t = useTranslations('pagination');
   const searchParams = useSearchParams();
   const page = parsePage(searchParams.get('page'));
 
@@ -35,7 +37,7 @@ export function Pagination({ totalBooks }: { totalBooks: number }) {
             : 'border-primary/30 hover:bg-primary hover:text-primary-foreground'
         }`}
       >
-        Prev
+        {t('prev')}
       </Link>
 
       {pages.map((pageItem, index) =>
@@ -70,7 +72,7 @@ export function Pagination({ totalBooks }: { totalBooks: number }) {
             : 'border-primary/30 hover:bg-primary hover:text-primary-foreground'
         }`}
       >
-        Next
+        {t('next')}
       </Link>
     </div>
   );

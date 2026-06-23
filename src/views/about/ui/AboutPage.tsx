@@ -1,11 +1,16 @@
+'use client';
+
 import {
   BookOpenText as BookIcon,
   ShieldUser as AuthorIcon,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Card } from './AboutCard';
 import { authorLinks, techStack } from '../model/aboutData';
 
 export function AboutPage() {
+  const t = useTranslations('about');
+
   return (
     <section
       className="bg-background min-h-screen overflow-hidden px-6 py-16"
@@ -14,26 +19,10 @@ export function AboutPage() {
     >
       <div className="mx-auto max-w-5xl">
         <div className="grid gap-6 md:grid-cols-2">
-          <Card icon={<BookIcon />} title="About the App">
-            <p className="text-muted-foreground mb-6">
-              BookFinder is a web application for searching and discovering
-              books using the{' '}
-              <a
-                href="https://openlibrary.org/developers/api"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary decoration-primary/40 hover:decoration-primary transition-colors"
-              >
-                Open Library API
-              </a>{' '}
-              - a free, open catalog of millions of titles from around the
-              world.
-            </p>
+          <Card icon={<BookIcon />} title={t('appTitle')}>
+            <p className="text-muted-foreground mb-6">{t('appText1')}</p>
 
-            <p className="text-muted-foreground mb-6">
-              You can search and instantly browse results from one of the
-              largest digital libraries available.
-            </p>
+            <p className="text-muted-foreground mb-6">{t('appText2')}</p>
 
             <ul className="flex flex-wrap gap-2">
               {techStack.map((tech) => (
@@ -46,25 +35,10 @@ export function AboutPage() {
             </ul>
           </Card>
 
-          <Card icon={<AuthorIcon />} title="About the Author">
-            <p className="text-muted-foreground mb-6">
-              Hi, I am <strong>Alla</strong> - a frontend developer currently
-              leveling up through the{' '}
-              <a
-                href="https://rs.school/courses/reactjs"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary decoration-primary/40 hover:decoration-primary transition-colors"
-              >
-                RS School React Course.
-              </a>
-            </p>
+          <Card icon={<AuthorIcon />} title={t('authorTitle')}>
+            <p className="text-muted-foreground mb-6">{t('authorText1')}</p>
 
-            <p className="text-muted-foreground mb-6">
-              This project was built as part of the course curriculum to
-              practice real-world React development: working with external APIs,
-              client-side routing, TypeScript, and modern tooling.
-            </p>
+            <p className="text-muted-foreground mb-6">{t('authorText2')}</p>
 
             <ul className="flex gap-4">
               {authorLinks.map((link) => (

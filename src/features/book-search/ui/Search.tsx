@@ -3,6 +3,7 @@
 import { type ChangeEvent, type SubmitEvent, useState } from 'react';
 import { Search as SearchIcon } from 'lucide-react';
 import { RefreshButton } from '@/shared/ui/RefreshButton';
+import { useTranslations } from 'next-intl';
 
 interface Props {
   initialValue: string;
@@ -20,6 +21,8 @@ function Search({ initialValue, onSearch, onRefresh }: Props) {
     onSearch(trimmedValue);
   };
 
+  const t = useTranslations('search');
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -34,7 +37,7 @@ function Search({ initialValue, onSearch, onRefresh }: Props) {
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             setInputValue(e.target.value);
           }}
-          placeholder="Start typing a book title or author..."
+          placeholder={t('placeholder')}
           className="placeholder:text-muted-foreground text-foreground w-full bg-transparent text-lg outline-none placeholder:text-lg"
         />
       </div>
@@ -43,7 +46,7 @@ function Search({ initialValue, onSearch, onRefresh }: Props) {
         type="submit"
         className="bg-primary text-primary-foreground cursor-pointer rounded-lg px-6 py-2 text-lg transition-opacity hover:opacity-90 active:scale-95"
       >
-        Search
+        {t('submit')}
       </button>
 
       <RefreshButton onRefresh={onRefresh} />

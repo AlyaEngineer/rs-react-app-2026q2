@@ -1,7 +1,11 @@
+import { useTranslations } from 'next-intl';
+
 export function SubjectList({ subjects }: { subjects?: string[] }) {
+  const t = useTranslations('bookDetailsPanel');
+
   return (
     <div>
-      <h3 className="text-foreground mb-2 font-semibold">Subjects</h3>
+      <h3 className="text-foreground mb-2 font-semibold">{t('subjects')}</h3>
       {subjects && subjects.length > 0 ? (
         <ul
           className="flex flex-wrap gap-2"

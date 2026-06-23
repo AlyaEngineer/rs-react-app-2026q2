@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { useSearchParams } from 'next/navigation';
 import { type Book } from '@/entities/book/model/types';
 import BookCard from '@/entities/book/ui/BookCard';

@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter } from '@/i18n/navigation';
 import Search from '@/features/book-search/ui/Search';
 import BookList from '@/widgets/book-list/BookList';
 import ErrorTestButton from '@/shared/errors/ErrorTestButton';
